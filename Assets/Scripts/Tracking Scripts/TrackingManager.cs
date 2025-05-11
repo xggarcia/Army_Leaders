@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Collections;
 using System.IO;
 using UnityEngine;
+using UnityEngine.UI;
+using System.Globalization;
+using System.Linq;
 
 
 public class TrackingManager : MonoBehaviour
@@ -303,6 +306,15 @@ public class TrackingManager : MonoBehaviour
         if (Input.GetKey(KeyCode.D))
         {
             players[playerSelected - 1].transform.Translate(Vector3.right * Time.deltaTime * trackingDisabledPlayerSpeed);
+        }
+        // Add up/down movement along Y-axis
+        if (Input.GetKey(KeyCode.E))
+        {
+            players[playerSelected - 1].transform.Translate(Vector3.up * Time.deltaTime * trackingDisabledPlayerSpeed);
+        }
+        if (Input.GetKey(KeyCode.Q))
+        {
+            players[playerSelected - 1].transform.Translate(Vector3.down * Time.deltaTime * trackingDisabledPlayerSpeed);
         }
     }
 
