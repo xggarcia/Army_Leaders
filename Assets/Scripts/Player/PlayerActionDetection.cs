@@ -8,7 +8,9 @@ public class PlayerActionDetection : MonoBehaviour
     [SerializeField] private float minDigVelocity = 0.8f;     // Minimum velocity to register as digging
     [SerializeField] private float cooldownTime = 1.0f;       // Cooldown between dig detections
     [SerializeField] private float minDigDistance = 0.3f;     // Minimum vertical distance to count as a dig
-    
+    [SerializeField] private DiggingFeedback diggingFeedback;
+    [SerializeField] private Transform digOrigin;
+
     // Movement tracking
     private Vector3 lastPosition;
     private Vector3 currentVelocity;
@@ -82,15 +84,15 @@ public class PlayerActionDetection : MonoBehaviour
                 float totalVerticalDistance = digDepth + digRise;
                 if (downwardMovementTime > 0.05f && timeSinceDirectionChange < 0.5f && totalVerticalDistance >= minDigDistance)
                 {
-                    // Valid dig pattern detected! (down then quickly up, with enough distance)
-                    Debug.Log($"Player DUG into the ground! Dig distance: {totalVerticalDistance:F2} (min required: {minDigDistance})");
-                    
-                    // Reset digging state
+                    Debug.Log($"Player DUG into the ground!");
                     isDiggingDown = false;
-                    
-                    // Set cooldown
                     lastDigTime = Time.time;
                     canDig = false;
+
+                    if (diggingFeedback != null)
+                    {
+                        diggingFeedback.TriggerDig(digOrigin.position, Vector3.forward); // You can modify the direction
+                    }
                 }
                 else
                 {
