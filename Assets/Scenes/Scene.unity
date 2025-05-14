@@ -1699,7 +1699,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 271862174}
   m_LocalRotation: {x: -0.10689557, y: -0.8571903, z: 0.503637, w: -0.012161174}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 5, z: 0}
   m_LocalScale: {x: 0.4, y: 0.4, z: 0.4}
   m_Children: []
   m_Father: {fileID: 1471923279}
@@ -3789,7 +3789,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 861651762}
   m_LocalRotation: {x: 0.50162613, y: 0.35124245, z: -0.11596583, w: 0.7820179}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 5, z: 0}
   m_LocalScale: {x: 0.4, y: 0.4, z: 0.4}
   m_Children: []
   m_Father: {fileID: 1440896351}
@@ -5879,7 +5879,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1440896347}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -25, y: 2, z: -25}
+  m_LocalPosition: {x: 17.25, y: 2, z: -25}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 861651763}
@@ -5933,9 +5933,8 @@ MonoBehaviour:
   digSound: {fileID: 8300000, guid: 181d408d4d1a36a4b8585755180881c3, type: 3}
   sandDarkDecalPrefab: {fileID: 3757435863620898502, guid: 892c04f006767744f99b63c902d101a3, type: 3}
   sandPilePrefab: {fileID: 8508531596827712511, guid: 280949b1c56b5f74694dea3af144e17b, type: 3}
-  groundParent: {fileID: 0}
-  decalOffset: {x: 0, y: -0.01, z: 0}
-  pileOffsetDistance: 0.5
+  playerTransform: {fileID: 1440896351}
+  digOrigin: {fileID: 39626085}
 --- !u!1001 &1443755508
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6290,7 +6289,6 @@ GameObject:
   - component: {fileID: 1471923277}
   - component: {fileID: 1471923276}
   - component: {fileID: 1471923280}
-  - component: {fileID: 1471923281}
   - component: {fileID: 1471923282}
   m_Layer: 0
   m_Name: Player2
@@ -6390,25 +6388,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 2
---- !u!114 &1471923281
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1471923275}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 89e9b7baad7e60744b16e2d91dcd0101, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  digParticles: {fileID: 1630661732969023637, guid: 7be78501f9853a04c9c91d8b258de923, type: 3}
-  digSound: {fileID: 8300000, guid: 181d408d4d1a36a4b8585755180881c3, type: 3}
-  sandDarkDecalPrefab: {fileID: 3757435863620898502, guid: 892c04f006767744f99b63c902d101a3, type: 3}
-  sandPilePrefab: {fileID: 8508531596827712511, guid: 280949b1c56b5f74694dea3af144e17b, type: 3}
-  groundParent: {fileID: 0}
-  decalOffset: {x: 0, y: -0.01, z: 0}
-  pileOffsetDistance: 0.5
 --- !u!114 &1471923282
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6424,7 +6403,7 @@ MonoBehaviour:
   minDigVelocity: 0.8
   cooldownTime: 1
   minDigDistance: 0.3
-  diggingFeedback: {fileID: 1471923281}
+  diggingFeedback: {fileID: 0}
   digOrigin: {fileID: 1806896285}
 --- !u!1 &1483708435
 GameObject:

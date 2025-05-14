@@ -91,7 +91,9 @@ public class PlayerActionDetection : MonoBehaviour
 
                     if (diggingFeedback != null)
                     {
-                        diggingFeedback.TriggerDig(digOrigin.position, Vector3.forward); // You can modify the direction
+                        Debug.Log("Calling TriggerDig()");
+                        diggingFeedback.TriggerDig();
+
                     }
                 }
                 else
