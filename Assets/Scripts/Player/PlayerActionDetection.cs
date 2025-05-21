@@ -24,7 +24,21 @@ public class PlayerActionDetection : MonoBehaviour
     private float digStartY = 0f;
     private float digEndY = 0f;
     private float minYDuringDig = 0f;
-    
+    private CubeBehaviour cubescript;
+    [SerializeField] private GameObject cubeObject;
+
+
+
+    // Detect if the player is performing a digging action
+    // --- Cube jump detection state ---
+    private bool isGoingUp = false;
+    private bool isComingDown = false;
+    private float cubeStartY = 0f;
+    private float peakY = 0f;
+    private float lastCubeActionTime = 0f;
+    private float timeSinceUpward = 0f;
+
+
     void Start()
     {
         lastPosition = transform.position;
@@ -40,10 +54,93 @@ public class PlayerActionDetection : MonoBehaviour
         }
         
         // Track movement and detect digging
-        DetectDiggingAction();
+      }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.CompareTag("SandZone"))
+        {
+            DetectDiggingAction();
+        }
+        if (other.CompareTag("CubeZone"))
+        {
+            DetectCubeAction(); 
+
+        }
     }
-    
-    // Detect if the player is performing a digging action
+
+
+    private void DetectCubeAction()
+    {
+        Vector3 currentPosition = transform.position;
+        currentVelocity = (currentPosition - lastPosition) / Time.deltaTime;
+        lastPosition = currentPosition;
+
+        float verticalVelocity = currentVelocity.y;
+        float currentY = currentPosition.y;
+
+        float upwardVelocityThreshold = 1.0f;   // Min speed going up
+        float downwardVelocityThreshold = -0.8f; // Min speed going down
+        float minHeightGain = 1.2f;             // Required height delta
+        float maxComboTime = 1.0f;              // Max time between up/down
+
+        if (!isGoingUp && verticalVelocity > upwardVelocityThreshold)
+        {
+            // Started moving up fast
+            isGoingUp = true;
+            cubeStartY = currentY;
+            peakY = currentY;
+            timeSinceUpward = 0f;
+            // Debug.Log("Started upward motion");
+        }
+        else if (isGoingUp)
+        {
+            // Track peak height
+            if (currentY > peakY)
+                peakY = currentY;
+
+            timeSinceUpward += Time.deltaTime;
+
+            // Now going down?
+            if (verticalVelocity < downwardVelocityThreshold)
+            {
+                float heightGain = peakY - cubeStartY;
+
+                if (heightGain >= minHeightGain && timeSinceUpward <= maxComboTime)
+                {
+                    Debug.Log("Player completed cube jump!");
+
+
+                    if (cubeObject != null)
+                    {
+                        CubeBehaviour cubeScript = cubeObject.GetComponent<CubeBehaviour>();
+                        if (cubeScript != null)
+                        {
+                            cubeScript.CubeActivation();
+                        }
+                        else
+                        {
+                            Debug.LogWarning("CubeBehaviour not found on assigned cubeObject!");
+                        }
+                    }
+
+
+                }
+
+                // Reset
+                isGoingUp = false;
+                isComingDown = false;
+            }
+
+            // Reset if too slow
+            if (timeSinceUpward > maxComboTime)
+            {
+                isGoingUp = false;
+            }
+        }
+    }
+
+
     private void DetectDiggingAction()
     {
         if (!canDig) return;

@@ -9,6 +9,8 @@ TagManager:
   - Skin Is Ship
   - Skin Is Hat
   - Birds
+  - CubeZone
+  - SandZone
   layers:
   - Default
   - TransparentFX

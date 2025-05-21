@@ -25,4 +25,12 @@ public class CubeScript : MonoBehaviour
         float newY = startPosition.y + Mathf.Sin(Time.time * bounceSpeed) * bounceHeight;
         transform.position = new Vector3(startPosition.x, newY, startPosition.z);
     }
+
+    public void CubeActivation()
+    {
+
+
+
+    }
+
 }
