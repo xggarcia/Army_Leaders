@@ -8545,6 +8545,55 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7906807967234774446, guid: e1165b0705c502547adca52ba573c1d3, type: 3}
   m_PrefabInstance: {fileID: 587510950}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1103596329
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1103596331}
+  - component: {fileID: 1103596330}
+  m_Layer: 0
+  m_Name: DigZoneManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1103596330
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1103596329}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f83681055e933574faee5f2072c483b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  xBounds: {x: -3, y: 43}
+  zBounds: {x: -38, y: 37}
+  yHeight: 2.71
+  digSpotPrefab: {fileID: 3572346944648507463, guid: c906c15861fbb63459a756e2ec4bf329, type: 3}
+  maxDigSpots: 4
+  digsPerSpot: 1
+--- !u!4 &1103596331
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1103596329}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -3.5, y: 1.8659306, z: 37.9}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 22
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1112840031 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7906807967234774446, guid: e1165b0705c502547adca52ba573c1d3, type: 3}
@@ -11230,7 +11279,16 @@ MonoBehaviour:
   diggingFeedback: {fileID: 1440896354}
   digOrigin: {fileID: 39626085}
   cubeObject: {fileID: 2049778578}
-  digLimit: 3
+  digZoneManager: {fileID: 1103596330}
+  digLimit: 1
+  spawnPrefabs:
+  - {fileID: 3607417009381202274, guid: c05c34cf7415e0c4e98b01a365a21256, type: 3}
+  - {fileID: 7773590947172151492, guid: 7cfcb5999e6bea64ba94ad6d0123f2ba, type: 3}
+  spawnRiseAmount: 2
+  spawnShrinkTime: 1.5
+  spawnRotationSpeed: 120
+  digRange: 3
+  prefabScaleMultiplier: 5
 --- !u!114 &1440896354
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11800,7 +11858,16 @@ MonoBehaviour:
   diggingFeedback: {fileID: 1471923283}
   digOrigin: {fileID: 1806896285}
   cubeObject: {fileID: 2049778578}
-  digLimit: 3
+  digZoneManager: {fileID: 1103596330}
+  digLimit: 1
+  spawnPrefabs:
+  - {fileID: 7773590947172151492, guid: 7cfcb5999e6bea64ba94ad6d0123f2ba, type: 3}
+  - {fileID: 3607417009381202274, guid: c05c34cf7415e0c4e98b01a365a21256, type: 3}
+  spawnRiseAmount: 2
+  spawnShrinkTime: 1.5
+  spawnRotationSpeed: 120
+  digRange: 1.5
+  prefabScaleMultiplier: 5
 --- !u!114 &1471923283
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16996,10 +17063,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e26d559246a3bb94590f7871a2684f1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationSpeed: 10
-  bounceHeight: 0.5
-  bounceSpeed: 2
-  startPosition: {x: 0, y: 0, z: 0}
 --- !u!114 &2049778583
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17016,7 +17079,7 @@ MonoBehaviour:
   shrinkDuration: 1.5
   cooldown: 5
   appearDuration: 1
-  hideYOffset: -10
+  hideYOffset: -34.7
   rotationSpeed_basic: 15
   bounceHeight_basic: 1.5
   bounceSpeed_basic: 3.5

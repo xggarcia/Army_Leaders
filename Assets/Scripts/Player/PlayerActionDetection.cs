@@ -10,14 +10,28 @@ public class PlayerActionDetection : MonoBehaviour
     [SerializeField] private float minDigDistance = 0.3f;
     [SerializeField] private DiggingFeedback diggingFeedback;
     [SerializeField] private Transform digOrigin;
-
     [SerializeField] private GameObject cubeObject;
+    [SerializeField] private DigZoneManager digZoneManager;
 
-    // Movement tracking
+    [Header("Dig Limit Settings")]
+    [SerializeField] private int digLimit = 3;
+    private int currentDigCount = 0;
+
+    [Header("Spawned Object Settings")]
+    [SerializeField] private List<GameObject> spawnPrefabs;
+    [SerializeField] private float spawnRiseAmount = 2f;
+    [SerializeField] private float spawnShrinkTime = 1.5f;
+    [SerializeField] private float spawnRotationSpeed = 120f;
+
+    [Header("Dig Precision Settings")]
+    [SerializeField] private float digRange = 1.5f;
+    [SerializeField] private float prefabScaleMultiplier = 2.0f;
+
+
     private Vector3 lastPosition;
     private Vector3 currentVelocity;
+    private Vector3 lastCompletedDigPosition;
 
-    // Digging state
     private float lastDigTime = 0f;
     private bool canDig = true;
     private bool isDiggingDown = false;
@@ -27,22 +41,14 @@ public class PlayerActionDetection : MonoBehaviour
     private float digEndY = 0f;
     private float minYDuringDig = 0f;
 
-    // Digging counter
-    private int currentDigCount = 0;
-    [SerializeField] private int digLimit = 3;
-
-    // Cube detection state
     private bool isGoingUp = false;
-    private bool isComingDown = false;
     private float cubeStartY = 0f;
     private float peakY = 0f;
-    private float lastCubeActionTime = 0f;
     private float timeSinceUpward = 0f;
 
     void Start()
     {
         lastPosition = transform.position;
-        Debug.Log("PlayerActionDetection initialized. Ready to detect digging actions.");
     }
 
     void Update()
@@ -74,12 +80,7 @@ public class PlayerActionDetection : MonoBehaviour
         float verticalVelocity = currentVelocity.y;
         float currentY = currentPosition.y;
 
-        float upwardVelocityThreshold = 1.0f;
-        float downwardVelocityThreshold = -0.8f;
-        float minHeightGain = 1.2f;
-        float maxComboTime = 1.0f;
-
-        if (!isGoingUp && verticalVelocity > upwardVelocityThreshold)
+        if (!isGoingUp && verticalVelocity > 1.0f)
         {
             isGoingUp = true;
             cubeStartY = currentY;
@@ -91,42 +92,29 @@ public class PlayerActionDetection : MonoBehaviour
             if (currentY > peakY) peakY = currentY;
             timeSinceUpward += Time.deltaTime;
 
-            if (verticalVelocity < downwardVelocityThreshold)
+            if (verticalVelocity < -0.8f)
             {
                 float heightGain = peakY - cubeStartY;
 
-                if (heightGain >= minHeightGain && timeSinceUpward <= maxComboTime)
+                if (heightGain >= 1.2f && timeSinceUpward <= 1.0f)
                 {
-                    Debug.Log("Player completed cube jump!");
-
                     if (cubeObject != null)
                     {
                         CubeBehaviour cubeScript = cubeObject.GetComponent<CubeBehaviour>();
-                        if (cubeScript != null)
-                        {
-                            cubeScript.CubeActivation();
-                        }
-                        else
-                        {
-                            Debug.LogWarning("CubeBehaviour not found on assigned cubeObject!");
-                        }
+                        if (cubeScript != null) cubeScript.CubeActivation();
                     }
                 }
 
                 isGoingUp = false;
-                isComingDown = false;
             }
 
-            if (timeSinceUpward > maxComboTime)
-            {
-                isGoingUp = false;
-            }
+            if (timeSinceUpward > 1.0f) isGoingUp = false;
         }
     }
 
     private void DetectDiggingAction()
     {
-        if (!canDig) return;
+        if (!canDig || digZoneManager == null) return;
 
         Vector3 currentPosition = transform.position;
         currentVelocity = (currentPosition - lastPosition) / Time.deltaTime;
@@ -148,8 +136,7 @@ public class PlayerActionDetection : MonoBehaviour
             if (verticalVelocity < 0)
             {
                 downwardMovementTime += Time.deltaTime;
-                if (currentY < minYDuringDig)
-                    minYDuringDig = currentY;
+                if (currentY < minYDuringDig) minYDuringDig = currentY;
             }
             else if (verticalVelocity > minDigVelocity)
             {
@@ -160,20 +147,20 @@ public class PlayerActionDetection : MonoBehaviour
 
                 if (downwardMovementTime > 0.05f && timeSinceDirectionChange < 0.5f && totalVerticalDistance >= minDigDistance)
                 {
-                    Debug.Log("Player DUG into the ground!");
                     isDiggingDown = false;
                     lastDigTime = Time.time;
                     canDig = false;
 
-                    if (diggingFeedback != null)
+                    if (digZoneManager.IsPlayerNearAnySpot(transform.position, out DigSpot spot, digRange))
                     {
                         diggingFeedback.TriggerDig();
+                        spot.RegisterDig();
+
+                        lastCompletedDigPosition = spot.transform.position;
 
                         currentDigCount++;
-
                         if (currentDigCount >= digLimit)
                         {
-                            Debug.Log("Dig limit reached. Calling FUNCTION()...");
                             diggingFeedback.ClearDigVisuals();
                             FUNCTION();
                             currentDigCount = 0;
@@ -188,17 +175,48 @@ public class PlayerActionDetection : MonoBehaviour
             else
             {
                 timeSinceDirectionChange += Time.deltaTime;
-                if (timeSinceDirectionChange > 0.5f)
-                {
-                    isDiggingDown = false;
-                }
+                if (timeSinceDirectionChange > 0.5f) isDiggingDown = false;
             }
         }
     }
 
-    private void FUNCTION()
+    private GameObject FUNCTION()
     {
-        Debug.Log("FUNCTION() triggered! 🎯 You dug enough times.");
-        // Put your custom logic here
+        if (spawnPrefabs == null || spawnPrefabs.Count == 0)
+        {
+            Debug.LogWarning("No prefabs assigned in spawnPrefabs list!");
+            return null;
+        }
+
+        GameObject prefabToSpawn = spawnPrefabs[Random.Range(0, spawnPrefabs.Count)];
+        GameObject instance = Instantiate(prefabToSpawn, lastCompletedDigPosition, Quaternion.identity);
+
+        // Scale it up before animation starts (e.g., 2x)
+        instance.transform.localScale *= prefabScaleMultiplier;
+
+        StartCoroutine(AnimateSpawnedObject(instance));
+        return instance;
+    }
+
+    private IEnumerator AnimateSpawnedObject(GameObject obj)
+    {
+        float elapsed = 0f;
+        Vector3 originalPos = obj.transform.position;
+        Vector3 targetPos = originalPos + Vector3.up * spawnRiseAmount;
+        Vector3 originalScale = obj.transform.localScale;
+
+        while (elapsed < spawnShrinkTime)
+        {
+            float t = elapsed / spawnShrinkTime;
+
+            obj.transform.position = Vector3.Lerp(originalPos, targetPos, t);
+            obj.transform.localScale = Vector3.Lerp(originalScale, Vector3.zero, t);
+            obj.transform.Rotate(Vector3.up, spawnRotationSpeed * Time.deltaTime, Space.World);
+
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        Destroy(obj);
     }
 }

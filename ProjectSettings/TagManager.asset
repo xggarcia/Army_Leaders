@@ -11,6 +11,7 @@ TagManager:
   - Birds
   - CubeZone
   - SandZone
+  - DiggingZone
   layers:
   - Default
   - TransparentFX
