@@ -28,14 +28,12 @@ public class DiggingFeedback : MonoBehaviour
 
     public void TriggerDig()
     {
-        // 🟫 1. Altura más alta para que no se trague el suelo
         float decalY = 2.5f;
-        float pileY = 3;
+        float pileY = 3f;
 
         Vector3 groundPos = new Vector3(playerTransform.position.x, decalY, playerTransform.position.z);
         Vector3 pilePos = new Vector3(digOrigin.position.x, pileY, digOrigin.position.z);
 
-        // 🌀 Decal (sprite oscuro)
         if (sandDarkDecalPrefab)
         {
             if (decalInstance == null)
@@ -50,7 +48,6 @@ public class DiggingFeedback : MonoBehaviour
             }
         }
 
-        // ⛰️ Sand pile
         if (sandPilePrefab)
         {
             if (pileInstance == null)
@@ -65,7 +62,6 @@ public class DiggingFeedback : MonoBehaviour
             }
         }
 
-        // 🌪️ Partículas (posición y visibilidad)
         if (digParticles)
         {
             Vector3 dirToPile = (digOrigin.position - playerTransform.position).normalized;
@@ -75,14 +71,28 @@ public class DiggingFeedback : MonoBehaviour
             digParticles.transform.rotation = Quaternion.LookRotation(Vector3.up);
             digParticles.Clear();
             digParticles.Play();
-
-            Debug.DrawRay(particlePos, Vector3.up * 0.5f, Color.cyan, 1.5f);
         }
 
-        // 🔊 Sonido
         if (digSound)
         {
             audioSource.PlayOneShot(digSound);
+        }
+    }
+
+    public void ClearDigVisuals()
+    {
+        if (decalInstance)
+        {
+            Destroy(decalInstance);
+            decalInstance = null;
+            decalScale = 10f;
+        }
+
+        if (pileInstance)
+        {
+            Destroy(pileInstance);
+            pileInstance = null;
+            pileScale = 0.5f;
         }
     }
 }

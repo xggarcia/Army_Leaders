@@ -687,7 +687,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 39626084}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.2, y: 0, z: 4.6}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1440896351}
@@ -1209,6 +1209,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2ff7584693c1bf94da578095195a8b37, type: 3}
+--- !u!198 &69198732 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 1630661732969023637, guid: 7be78501f9853a04c9c91d8b258de923, type: 3}
+  m_PrefabInstance: {fileID: 3366725460695092934}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &75095918
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11225,6 +11230,7 @@ MonoBehaviour:
   diggingFeedback: {fileID: 1440896354}
   digOrigin: {fileID: 39626085}
   cubeObject: {fileID: 2049778578}
+  digLimit: 3
 --- !u!114 &1440896354
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11237,7 +11243,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89e9b7baad7e60744b16e2d91dcd0101, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  digParticles: {fileID: 1630661732969023637, guid: 7be78501f9853a04c9c91d8b258de923, type: 3}
+  digParticles: {fileID: 69198732}
   digSound: {fileID: 8300000, guid: 181d408d4d1a36a4b8585755180881c3, type: 3}
   sandDarkDecalPrefab: {fileID: 3757435863620898502, guid: 892c04f006767744f99b63c902d101a3, type: 3}
   sandPilePrefab: {fileID: 8508531596827712511, guid: 280949b1c56b5f74694dea3af144e17b, type: 3}
@@ -11661,6 +11667,8 @@ GameObject:
   - component: {fileID: 1471923276}
   - component: {fileID: 1471923280}
   - component: {fileID: 1471923282}
+  - component: {fileID: 1471923281}
+  - component: {fileID: 1471923283}
   m_Layer: 0
   m_Name: Player2
   m_TagString: Player
@@ -11758,6 +11766,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 2
+--- !u!54 &1471923281
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1471923275}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!114 &1471923282
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11773,9 +11797,28 @@ MonoBehaviour:
   minDigVelocity: 0.8
   cooldownTime: 1
   minDigDistance: 0.3
-  diggingFeedback: {fileID: 0}
+  diggingFeedback: {fileID: 1471923283}
   digOrigin: {fileID: 1806896285}
-  cubeObject: {fileID: 0}
+  cubeObject: {fileID: 2049778578}
+  digLimit: 3
+--- !u!114 &1471923283
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1471923275}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89e9b7baad7e60744b16e2d91dcd0101, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  digParticles: {fileID: 69198732}
+  digSound: {fileID: 8300000, guid: 181d408d4d1a36a4b8585755180881c3, type: 3}
+  sandDarkDecalPrefab: {fileID: 3757435863620898502, guid: 892c04f006767744f99b63c902d101a3, type: 3}
+  sandPilePrefab: {fileID: 8508531596827712511, guid: 280949b1c56b5f74694dea3af144e17b, type: 3}
+  playerTransform: {fileID: 1471923279}
+  digOrigin: {fileID: 1806896285}
 --- !u!4 &1473580544 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7906807967234774446, guid: e1165b0705c502547adca52ba573c1d3, type: 3}
@@ -14511,8 +14554,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1806896284}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 7.6, y: 0, z: -41.6}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1471923279}
@@ -16956,6 +16999,7 @@ MonoBehaviour:
   rotationSpeed: 10
   bounceHeight: 0.5
   bounceSpeed: 2
+  startPosition: {x: 0, y: 0, z: 0}
 --- !u!114 &2049778583
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16970,7 +17014,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rotationSpeed: 720
   shrinkDuration: 1.5
-  reappearDelay: 5
+  cooldown: 5
+  appearDuration: 1
+  hideYOffset: -10
+  rotationSpeed_basic: 15
+  bounceHeight_basic: 1.5
+  bounceSpeed_basic: 3.5
 --- !u!4 &2054868000 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7906807967234774446, guid: e1165b0705c502547adca52ba573c1d3, type: 3}
@@ -17657,7 +17706,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7899594524501104146, guid: a0bf8cc4fda046b4291252bb29c339bb, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 6.83
+      value: 5.45
       objectReference: {fileID: 0}
     - target: {fileID: 7899594524501104146, guid: a0bf8cc4fda046b4291252bb29c339bb, type: 3}
       propertyPath: m_LocalPosition.z

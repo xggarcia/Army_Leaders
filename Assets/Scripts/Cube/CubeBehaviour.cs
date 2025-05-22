@@ -3,46 +3,85 @@ using UnityEngine;
 
 public class CubeBehaviour : MonoBehaviour
 {
-    [Header("Disappearance Settings")]
-    public float rotationSpeed = 720f;        // Degrees per second
-    public float shrinkDuration = 1.0f;       // How long to shrink
-    public float reappearDelay = 5.0f;        // How long before reappearing
+    [Header("Disappear/Respawn Settings")]
+    public float rotationSpeed = 720f;
+    public float shrinkDuration = 1.0f;
+    public float cooldown = 5f;
+    public float appearDuration = 1.0f;
+    public float hideYOffset = -10f; // Distance below the floor to hide
+
+    [Header("Idle Bounce Settings")]
+    public float rotationSpeed_basic = 15f;
+    public float bounceHeight_basic = 1.5f;
+    public float bounceSpeed_basic = 3.5f;
 
     private Vector3 initialScale;
+    private Vector3 startPosition;
+    private bool onCooldown = false;
 
     void Start()
     {
         initialScale = transform.localScale;
+        startPosition = transform.position;
+    }
+
+    void Update()
+    {
+        if (onCooldown)
+            return;
+
+        // Rotate and bounce
+        transform.Rotate(Vector3.one * rotationSpeed_basic * Time.deltaTime);
+
+        float newY = startPosition.y + Mathf.Sin(Time.time * bounceSpeed_basic) * bounceHeight_basic;
+        transform.position = new Vector3(startPosition.x, newY, startPosition.z);
     }
 
     public void CubeActivation()
     {
-        StartCoroutine(AnimateCube());
+        if (!onCooldown)
+        {
+            StartCoroutine(AnimateCubeAndRespawn());
+        }
     }
 
-    private IEnumerator AnimateCube()
+    private IEnumerator AnimateCubeAndRespawn()
     {
+        onCooldown = true;
+
         float elapsed = 0f;
 
-        // Phase 1: Rotate and shrink
+        // Shrink and move down
         while (elapsed < shrinkDuration)
         {
             transform.Rotate(Vector3.up, rotationSpeed * Time.deltaTime);
             float t = elapsed / shrinkDuration;
-            transform.localScale = Vector3.Lerp(initialScale, Vector3.zero, t);
+            transform.localScale = Vector3.Lerp(initialScale, Vector3.one * 0.01f, t); // avoid 0
             elapsed += Time.deltaTime;
             yield return null;
         }
 
-        // Final scale zero and hide
-        transform.localScale = Vector3.zero;
-        gameObject.SetActive(false);
+        // Move it below the map and keep tiny
+        transform.localScale = Vector3.one * 0.01f;
+        transform.position = startPosition + Vector3.up * hideYOffset;
 
-        // Phase 2: Wait, then reappear
-        yield return new WaitForSeconds(reappearDelay);
+        // Wait
+        yield return new WaitForSeconds(cooldown);
 
-        // Reactivate and restore scale
+        // Move back to original position
+        transform.position = startPosition;
+
+        // Scale up smoothly
+        elapsed = 0f;
+        while (elapsed < appearDuration)
+        {
+            float t = elapsed / appearDuration;
+            transform.localScale = Vector3.Lerp(Vector3.one * 0.01f, initialScale, t);
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
         transform.localScale = initialScale;
-        gameObject.SetActive(true);
+        onCooldown = false;
     }
 }
