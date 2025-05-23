@@ -28,6 +28,12 @@ public class PlayerActionDetection : MonoBehaviour
     [SerializeField] private float prefabScaleMultiplier = 2.0f;
 
 
+
+    [Header("Combat")]
+
+    [SerializeField] private Combat tankScript; // assign in inspector
+    [SerializeField] private string playerTeam = "Red"; // or "Blue"
+
     private Vector3 lastPosition;
     private Vector3 currentVelocity;
     private Vector3 lastCompletedDigPosition;
@@ -45,6 +51,8 @@ public class PlayerActionDetection : MonoBehaviour
     private float cubeStartY = 0f;
     private float peakY = 0f;
     private float timeSinceUpward = 0f;
+
+
 
     void Start()
     {
@@ -191,12 +199,23 @@ public class PlayerActionDetection : MonoBehaviour
         GameObject prefabToSpawn = spawnPrefabs[Random.Range(0, spawnPrefabs.Count)];
         GameObject instance = Instantiate(prefabToSpawn, lastCompletedDigPosition, Quaternion.identity);
 
-        // Scale it up before animation starts (e.g., 2x)
+        // Make it larger (optional)
         instance.transform.localScale *= prefabScaleMultiplier;
+
+        // 🔵 Call StatTank to improve team stats
+        if (tankScript != null)
+        {
+            tankScript.ImproveStats(prefabToSpawn, playerTeam);  // "Red" or "Blue"
+        }
+        else
+        {
+            Debug.LogWarning("tankScript is not assigned!");
+        }
 
         StartCoroutine(AnimateSpawnedObject(instance));
         return instance;
     }
+
 
     private IEnumerator AnimateSpawnedObject(GameObject obj)
     {
