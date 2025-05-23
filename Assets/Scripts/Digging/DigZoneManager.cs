@@ -61,4 +61,16 @@ public class DigZoneManager : MonoBehaviour
             SpawnNewDigSpot();
         }
     }
+
+    public void ReduceRequiredDigsForTeam(string team)
+    {
+        foreach (var spot in activeSpots)
+        {
+            if (spot != null && spot.ownerTeam == team)
+            {
+                spot.requiredDigs = Mathf.Max(1, spot.requiredDigs - 1);
+            }
+        }
+    }
+
 }
