@@ -11,17 +11,16 @@ public class DigZoneManager : MonoBehaviour
     [Header("Spawn Settings")]
     public GameObject digSpotPrefab;
     public int maxDigSpots = 1;
-    public int digsPerSpot = 3;
 
     private List<DigSpot> activeSpots = new List<DigSpot>();
 
     void Start()
     {
         for (int i = 0; i < maxDigSpots; i++)
-            SpawnNewDigSpot();
+            SpawnNewDigSpot("Red");
     }
 
-    public void SpawnNewDigSpot()
+    public void SpawnNewDigSpot(string team)
     {
         Vector3 newPos = new Vector3(
             Random.Range(xBounds.x, xBounds.y),
@@ -32,7 +31,7 @@ public class DigZoneManager : MonoBehaviour
         GameObject newSpot = Instantiate(digSpotPrefab, newPos, Quaternion.identity);
         DigSpot digScript = newSpot.AddComponent<DigSpot>();
         digScript.manager = this;
-        digScript.requiredDigs = digsPerSpot;
+        digScript.ownerTeam = team;
 
         activeSpots.Add(digScript);
     }
@@ -41,7 +40,7 @@ public class DigZoneManager : MonoBehaviour
     {
         foreach (var spot in activeSpots)
         {
-            if (spot != null && spot.IsPlayerNear(playerPos, maxDistance))
+            if (spot != null && !spot.isCompleted && spot.IsPlayerNear(playerPos, maxDistance))
             {
                 matchedSpot = spot;
                 return true;
@@ -54,23 +53,16 @@ public class DigZoneManager : MonoBehaviour
 
     public void SpotCompleted(DigSpot spot)
     {
-        if (activeSpots.Contains(spot))
+        if (spot != null)
         {
-            activeSpots.Remove(spot);
-            Destroy(spot.gameObject);
-            SpawnNewDigSpot();
-        }
-    }
+            spot.isCompleted = true;
 
-    public void ReduceRequiredDigsForTeam(string team)
-    {
-        foreach (var spot in activeSpots)
-        {
-            if (spot != null && spot.ownerTeam == team)
+            if (activeSpots.Contains(spot))
             {
-                spot.requiredDigs = Mathf.Max(1, spot.requiredDigs - 1);
+                activeSpots.Remove(spot);
+                Destroy(spot.gameObject);
+                SpawnNewDigSpot(spot.ownerTeam);
             }
         }
     }
-
 }

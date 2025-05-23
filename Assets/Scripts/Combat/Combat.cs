@@ -16,7 +16,6 @@ public class Combat : MonoBehaviour
     public List<StatModifier> objectModifiers; // Each prefab or object will have an effect
 
     public GameObject specialDigObject; // If this appears, reduce dig requirements
-    public DigZoneManager digZoneManager; // Reference to DigZoneManager
 
     private float currentZ = 0f;
 
@@ -58,12 +57,6 @@ public class Combat : MonoBehaviour
                     redTeamStats.ApplyModifier(mod);
                 else if (team == "Blue")
                     blueTeamStats.ApplyModifier(mod);
-
-                // Check if special object appeared
-                if (dugObject == specialDigObject && digZoneManager != null)
-                {
-                    digZoneManager.ReduceRequiredDigsForTeam(team);
-                }
 
                 return;
             }

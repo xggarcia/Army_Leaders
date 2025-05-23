@@ -14,8 +14,8 @@ public class PlayerActionDetection : MonoBehaviour
     [SerializeField] private DigZoneManager digZoneManager;
 
     [Header("Dig Limit Settings")]
-    [SerializeField] private int digLimit = 3;
-    private int currentDigCount = 0;
+    [SerializeField] private int baseDigLimit = 3;
+    private int currentDigLimit;
 
     [Header("Spawned Object Settings")]
     [SerializeField] private List<GameObject> spawnPrefabs;
@@ -27,12 +27,9 @@ public class PlayerActionDetection : MonoBehaviour
     [SerializeField] private float digRange = 1.5f;
     [SerializeField] private float prefabScaleMultiplier = 2.0f;
 
-
-
     [Header("Combat")]
-
-    [SerializeField] private Combat tankScript; // assign in inspector
-    [SerializeField] private string playerTeam = "Red"; // or "Blue"
+    [SerializeField] private Combat tankScript;
+    [SerializeField] private string playerTeam = "Red";
 
     private Vector3 lastPosition;
     private Vector3 currentVelocity;
@@ -52,11 +49,12 @@ public class PlayerActionDetection : MonoBehaviour
     private float peakY = 0f;
     private float timeSinceUpward = 0f;
 
-
+    private DigSpot lastDigSpot;
 
     void Start()
     {
         lastPosition = transform.position;
+        currentDigLimit = baseDigLimit;
     }
 
     void Update()
@@ -109,7 +107,10 @@ public class PlayerActionDetection : MonoBehaviour
                     if (cubeObject != null)
                     {
                         CubeBehaviour cubeScript = cubeObject.GetComponent<CubeBehaviour>();
-                        if (cubeScript != null) cubeScript.CubeActivation();
+                        if (cubeScript != null)
+                        {
+                            cubeScript.CubeActivation();
+                        }
                     }
                 }
 
@@ -161,17 +162,17 @@ public class PlayerActionDetection : MonoBehaviour
 
                     if (digZoneManager.IsPlayerNearAnySpot(transform.position, out DigSpot spot, digRange))
                     {
+                        lastDigSpot = spot;
                         diggingFeedback.TriggerDig();
-                        spot.RegisterDig();
-
                         lastCompletedDigPosition = spot.transform.position;
 
-                        currentDigCount++;
-                        if (currentDigCount >= digLimit)
+                        currentDigLimit--;
+                        if (currentDigLimit <= 0)
                         {
                             diggingFeedback.ClearDigVisuals();
                             FUNCTION();
-                            currentDigCount = 0;
+                            digZoneManager.SpotCompleted(spot);
+                            ResetPlayerDigLimit();
                         }
                     }
                 }
@@ -188,6 +189,18 @@ public class PlayerActionDetection : MonoBehaviour
         }
     }
 
+    private void ReducePlayerDigLimit()
+    {
+        baseDigLimit = Mathf.Max(1, baseDigLimit - 1);
+        currentDigLimit = Mathf.Min(currentDigLimit, baseDigLimit);
+        Debug.Log("[BASE DIG LIMIT REDUCED] New base: " + baseDigLimit);
+    }
+
+    private void ResetPlayerDigLimit()
+    {
+        currentDigLimit = baseDigLimit;
+    }
+
     private GameObject FUNCTION()
     {
         if (spawnPrefabs == null || spawnPrefabs.Count == 0)
@@ -198,24 +211,21 @@ public class PlayerActionDetection : MonoBehaviour
 
         GameObject prefabToSpawn = spawnPrefabs[Random.Range(0, spawnPrefabs.Count)];
         GameObject instance = Instantiate(prefabToSpawn, lastCompletedDigPosition, Quaternion.identity);
-
-        // Make it larger (optional)
         instance.transform.localScale *= prefabScaleMultiplier;
 
-        // 🔵 Call StatTank to improve team stats
         if (tankScript != null)
         {
-            tankScript.ImproveStats(prefabToSpawn, playerTeam);  // "Red" or "Blue"
-        }
-        else
-        {
-            Debug.LogWarning("tankScript is not assigned!");
+            tankScript.ImproveStats(prefabToSpawn, playerTeam);
+
+            if (prefabToSpawn.name == tankScript.specialDigObject.name)
+            {
+                ReducePlayerDigLimit();
+            }
         }
 
         StartCoroutine(AnimateSpawnedObject(instance));
         return instance;
     }
-
 
     private IEnumerator AnimateSpawnedObject(GameObject obj)
     {
