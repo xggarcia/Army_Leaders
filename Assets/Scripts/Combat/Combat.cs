@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.Events;
 
 public class Combat : MonoBehaviour
 {
@@ -23,10 +24,19 @@ public class Combat : MonoBehaviour
     public GameObject healingDigObject;
     public int healingAmount = 10;
 
+    [Header("UI Events")]
+    public UnityEvent<string> OnGameOver;  // Llamado cuando el juego termina
+
     private float currentZ = 0f;
     private bool isDamagingBase = false;
     private string winningTeam = "";
     private float damageTimer = 0f;
+
+    // Propiedades públicas para que la UI pueda acceder
+    public bool IsDamagingBase => isDamagingBase;
+    public string CurrentWinningTeam => winningTeam;
+    public float TankPosition => currentZ;
+    public float TankProgress => Mathf.InverseLerp(minZ, maxZ, currentZ);
 
     void Start()
     {
@@ -67,6 +77,9 @@ public class Combat : MonoBehaviour
                 winningTeam = (currentZ >= maxZ) ? "Blue" : "Red";
                 Debug.Log($"Game Over! {winningTeam} team wins!");
                 isDamagingBase = true;
+                
+                // Trigger the UI event
+                OnGameOver?.Invoke(winningTeam);
             }
         }
     }
