@@ -71,7 +71,14 @@ public class GameStarter : MonoBehaviour
 
         for (int i = 3; i >= 0; i--)
         {
-            countdownText.text = i.ToString();
+            if (i == 0)
+            {
+                countdownText.text = "GO!!";
+            }
+            else
+            {
+                countdownText.text = i.ToString();
+            }
             countdownText.color = new Color(1, 1, 1, 0); // transparent
             countdownText.transform.localScale = Vector3.one * 0.5f;
 

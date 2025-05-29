@@ -32,4 +32,7 @@ public class BirdMapSoundTrigger : MonoBehaviour
             }
         }
     }
+
+
+
 }
