@@ -12,6 +12,10 @@ TagManager:
   - CubeZone
   - SandZone
   - DiggingZone
+  - StartZonaRedTeam
+  - StartZonaBlueTeam
+  - Player1
+  - Player2
   layers:
   - Default
   - TransparentFX
