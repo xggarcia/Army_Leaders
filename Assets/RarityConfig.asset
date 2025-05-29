@@ -12,4 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3b91367b03cc8c4c8cd87f0e69dac3f, type: 3}
   m_Name: RarityConfig
   m_EditorClassIdentifier: 
-  raritySettings: []
+  raritySettings:
+  - rarity: 0
+    spawnProbability: 0.6
+    glowColor: {r: 1, g: 1, b: 1, a: 0}
+  - rarity: 1
+    spawnProbability: 0.25
+    glowColor: {r: 0, g: 1, b: 0, a: 0}
+  - rarity: 2
+    spawnProbability: 0.1
+    glowColor: {r: 0.5019608, g: 0, b: 0.5019608, a: 0}
+  - rarity: 3
+    spawnProbability: 0.05
+    glowColor: {r: 1, g: 1, b: 0, a: 0}

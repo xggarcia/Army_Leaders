@@ -9362,6 +9362,7 @@ MonoBehaviour:
   yHeight: 2.71
   digSpotPrefab: {fileID: 3572346944648507463, guid: c906c15861fbb63459a756e2ec4bf329, type: 3}
   maxDigSpots: 8
+  rarityManager: {fileID: 11400000, guid: 51c7006e4f3a704429d93e0076054f73, type: 2}
 --- !u!4 &1103596331
 Transform:
   m_ObjectHideFlags: 0
@@ -12396,6 +12397,7 @@ MonoBehaviour:
   prefabScaleMultiplier: 5
   tankScript: {fileID: 267359266}
   playerTeam: Red
+  rarityManager: {fileID: 11400000, guid: 51c7006e4f3a704429d93e0076054f73, type: 2}
 --- !u!114 &1440896354
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13055,6 +13057,7 @@ MonoBehaviour:
   prefabScaleMultiplier: 5
   tankScript: {fileID: 267359266}
   playerTeam: Blue
+  rarityManager: {fileID: 11400000, guid: 51c7006e4f3a704429d93e0076054f73, type: 2}
 --- !u!114 &1471923283
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18507,6 +18510,9 @@ MonoBehaviour:
   rotationSpeed_basic: 15
   bounceHeight_basic: 1.5
   bounceSpeed_basic: 3.5
+  rarityManager: {fileID: 0}
+  epicObjects: []
+  legendaryObjects: []
 --- !u!4 &2054868000 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7906807967234774446, guid: e1165b0705c502547adca52ba573c1d3, type: 3}

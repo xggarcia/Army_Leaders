@@ -16,6 +16,7 @@ TagManager:
   - StartZonaBlueTeam
   - Player1
   - Player2
+  - Shovel
   layers:
   - Default
   - TransparentFX
