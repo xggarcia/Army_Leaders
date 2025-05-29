@@ -14,6 +14,9 @@ public class CubeBehaviour : MonoBehaviour
     public float rotationSpeed_basic = 15f;
     public float bounceHeight_basic = 1.5f;
     public float bounceSpeed_basic = 3.5f;
+    public RarityManager rarityManager;
+    public GameObject[] epicObjects;
+    public GameObject[] legendaryObjects;
 
     private Vector3 initialScale;
     private Vector3 startPosition;
@@ -41,9 +44,16 @@ public class CubeBehaviour : MonoBehaviour
     {
         if (!onCooldown)
         {
+            Rarity rarity = rarityManager.GetRandomRarity(epicOnly: true);
+            GameObject objToSpawn = (rarity == Rarity.Epic) ?
+                epicObjects[Random.Range(0, epicObjects.Length)] :
+                legendaryObjects[Random.Range(0, legendaryObjects.Length)];
+
+            Instantiate(objToSpawn, transform.position, Quaternion.identity);
             StartCoroutine(AnimateCubeAndRespawn());
         }
     }
+
 
     private IEnumerator AnimateCubeAndRespawn()
     {

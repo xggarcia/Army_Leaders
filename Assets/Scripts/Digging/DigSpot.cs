@@ -1,10 +1,12 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class DigSpot : MonoBehaviour
 {
     public DigZoneManager manager;
     public string ownerTeam; // "Red" or "Blue"
     public bool isCompleted = false;
+
+    public Rarity rarity; // 🟨 Required field
 
     public bool IsPlayerNear(Vector3 playerPos, float maxDistance)
     {
@@ -13,3 +15,4 @@ public class DigSpot : MonoBehaviour
         return Vector3.Distance(flatPlayer, flatSpot) <= maxDistance;
     }
 }
+

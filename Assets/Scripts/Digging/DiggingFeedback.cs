@@ -95,4 +95,15 @@ public class DiggingFeedback : MonoBehaviour
             pileScale = 0.5f;
         }
     }
+    public void ShowRarityColor(Rarity rarity, RarityManager rarityManager)
+    {
+        Color color = rarityManager.GetColor(rarity);
+        // Apply glow or shader to sandDarkDecalPrefab, or add temporary light/effect
+        if (decalInstance)
+        {
+            var renderer = decalInstance.GetComponent<Renderer>();
+            if (renderer) renderer.material.SetColor("_EmissionColor", color);
+        }
+    }
+
 }

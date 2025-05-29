@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class PlayerActionDetection : MonoBehaviour
 {
     [Header("Digging Detection Settings")]
@@ -30,6 +31,9 @@ public class PlayerActionDetection : MonoBehaviour
     [Header("Combat")]
     [SerializeField] private Combat tankScript;
     [SerializeField] private string playerTeam = "Red";
+
+    [Header("Rarity Visuals")]
+    [SerializeField] private RarityManager rarityManager; // ✅ This must be assigned in the Inspector
 
     private Vector3 lastPosition;
     private Vector3 currentVelocity;
@@ -164,6 +168,7 @@ public class PlayerActionDetection : MonoBehaviour
                     {
                         lastDigSpot = spot;
                         diggingFeedback.TriggerDig();
+                        diggingFeedback.ShowRarityColor(spot.rarity, rarityManager); // ✅ Add color feedback
                         lastCompletedDigPosition = spot.transform.position;
 
                         currentDigLimit--;
@@ -203,23 +208,59 @@ public class PlayerActionDetection : MonoBehaviour
 
     private GameObject FUNCTION()
     {
-        if (spawnPrefabs == null || spawnPrefabs.Count == 0)
+        if (lastDigSpot == null || spawnPrefabs == null || spawnPrefabs.Count == 0)
         {
-            Debug.LogWarning("No prefabs assigned in spawnPrefabs list!");
+            Debug.LogWarning("Missing dig spot or prefabs!");
             return null;
         }
 
-        GameObject prefabToSpawn = spawnPrefabs[Random.Range(0, spawnPrefabs.Count)];
-        GameObject instance = Instantiate(prefabToSpawn, lastCompletedDigPosition, Quaternion.identity);
+        List<GameObject> filteredPrefabs = new List<GameObject>();
+        foreach (var prefab in spawnPrefabs)
+        {
+            RarityTag tag = prefab.GetComponent<RarityTag>();
+            if (tag != null && tag.rarity == lastDigSpot.rarity)
+            {
+                filteredPrefabs.Add(prefab);
+            }
+        }
+
+        if (filteredPrefabs.Count == 0)
+        {
+            Debug.LogWarning("No prefabs found for rarity: " + lastDigSpot.rarity);
+            return null;
+        }
+
+        GameObject selectedPrefab = filteredPrefabs[Random.Range(0, filteredPrefabs.Count)];
+        GameObject instance = Instantiate(selectedPrefab, lastCompletedDigPosition, Quaternion.identity);
         instance.transform.localScale *= prefabScaleMultiplier;
+
+        // Apply glow color
+        if (rarityManager != null)
+        {
+            Color glow = rarityManager.GetColor(lastDigSpot.rarity);
+            var renderer = instance.GetComponent<Renderer>();
+            if (renderer && renderer.material.HasProperty("_EmissionColor"))
+            {
+                renderer.material.EnableKeyword("_EMISSION");
+                renderer.material.SetColor("_EmissionColor", glow);
+            }
+        }
 
         if (tankScript != null)
         {
-            tankScript.ImproveStats(prefabToSpawn, playerTeam);
+            tankScript.ImproveStats(selectedPrefab, playerTeam);
 
-            if (prefabToSpawn.name == tankScript.specialDigObject.name)
+            if (selectedPrefab.name == tankScript.specialDigObject.name)
             {
                 ReducePlayerDigLimit();
+            }
+
+            if (selectedPrefab.CompareTag("Shovel"))
+            {
+                if (lastDigSpot.rarity == Rarity.Epic)
+                    baseDigLimit = Mathf.Max(1, baseDigLimit - 1);
+                else if (lastDigSpot.rarity == Rarity.Legendary)
+                    baseDigLimit = Mathf.Max(1, baseDigLimit - 2);
             }
         }
 

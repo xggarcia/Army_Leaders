@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections.Generic;
 
 public class DigZoneManager : MonoBehaviour
@@ -11,6 +11,7 @@ public class DigZoneManager : MonoBehaviour
     [Header("Spawn Settings")]
     public GameObject digSpotPrefab;
     public int maxDigSpots = 1;
+    public RarityManager rarityManager;
 
     private List<DigSpot> activeSpots = new List<DigSpot>();
 
@@ -32,6 +33,9 @@ public class DigZoneManager : MonoBehaviour
         DigSpot digScript = newSpot.AddComponent<DigSpot>();
         digScript.manager = this;
         digScript.ownerTeam = team;
+
+        // ✅ Assign rarity via RarityManager
+        digScript.rarity = rarityManager.GetRandomRarity();
 
         activeSpots.Add(digScript);
     }
