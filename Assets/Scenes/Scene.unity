@@ -2812,7 +2812,7 @@ MonoBehaviour:
     defenseBoost: 1
     speedBoost: 0
   - prefab: {fileID: 9027108505464808653, guid: 01c1715fab89b394ca40b9ea1ecc9d11, type: 3}
-    powerBoost: 10
+    powerBoost: 1
     defenseBoost: 0
     speedBoost: 0
   baseHealthController: {fileID: 1663680537}
@@ -5829,10 +5829,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   calibrationUI: {fileID: 220600117}
   trackingInterface: {fileID: 220600112}
-  enableTracking: 0
+  enableTracking: 1
   numberOfPlayers: 2
   numberOfBaseStations: 4
-  enableRotation: 1
+  enableRotation: 0
   enableYAxis: 1
   virtualWorldSpace: {x: 100, y: 1, z: 100}
   players:
@@ -5844,7 +5844,7 @@ MonoBehaviour:
   - {fileID: 1554760525}
   - {fileID: 483883237}
   - {fileID: 1151668547}
-  calibrationSaveFilePath: 
+  calibrationSaveFilePath: D:\Calibration\Eje Z
   playerSelected: 1
   trackingDisabledPlayerSpeed: 5
 --- !u!1 &610001569
@@ -12384,7 +12384,7 @@ MonoBehaviour:
   digOrigin: {fileID: 39626085}
   cubeObject: {fileID: 2049778578}
   digZoneManager: {fileID: 1103596330}
-  baseDigLimit: 4
+  baseDigLimit: 7
   spawnPrefabs:
   - {fileID: 8473347937480995496, guid: 1de271fd83a36d94abbd8c5494c94102, type: 3}
   - {fileID: 7804439257730310873, guid: abc18aa864049a748a725b9abb4d70a3, type: 3}
@@ -12393,7 +12393,7 @@ MonoBehaviour:
   spawnRiseAmount: 2
   spawnShrinkTime: 1.5
   spawnRotationSpeed: 120
-  digRange: 3
+  digRange: 5
   prefabScaleMultiplier: 5
   tankScript: {fileID: 267359266}
   playerTeam: Red
@@ -13044,7 +13044,7 @@ MonoBehaviour:
   digOrigin: {fileID: 1806896285}
   cubeObject: {fileID: 2049778578}
   digZoneManager: {fileID: 1103596330}
-  baseDigLimit: 4
+  baseDigLimit: 7
   spawnPrefabs:
   - {fileID: 8473347937480995496, guid: 1de271fd83a36d94abbd8c5494c94102, type: 3}
   - {fileID: 7804439257730310873, guid: abc18aa864049a748a725b9abb4d70a3, type: 3}
@@ -13053,7 +13053,7 @@ MonoBehaviour:
   spawnRiseAmount: 2
   spawnShrinkTime: 1.5
   spawnRotationSpeed: 120
-  digRange: 1.5
+  digRange: 5
   prefabScaleMultiplier: 5
   tankScript: {fileID: 267359266}
   playerTeam: Blue
@@ -18185,7 +18185,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 0
+  m_PresetInfoIsWorld: 1
 --- !u!223 &2026529282
 Canvas:
   m_ObjectHideFlags: 0
@@ -18195,7 +18195,7 @@ Canvas:
   m_GameObject: {fileID: 2026529279}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
+  m_RenderMode: 2
   m_Camera: {fileID: 0}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
@@ -18214,19 +18214,19 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2026529279}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0.5, y: 0.5, z: -0.5, w: 0.5}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_Children:
   - {fileID: 1958991189}
   m_Father: {fileID: 0}
   m_RootOrder: 25
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 90, y: 90, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -1.45, y: 10.87}
+  m_SizeDelta: {x: 964, y: 566.6667}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &2041817075
 GameObject:
   m_ObjectHideFlags: 0
