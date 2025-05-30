@@ -9,7 +9,10 @@ public class DigZoneManager : MonoBehaviour
     public float yHeight = 0.2f;
 
     [Header("Spawn Settings")]
-    public GameObject digSpotPrefab;
+    public GameObject commonDigSpotPrefab;
+    public GameObject rareDigSpotPrefab;
+    public GameObject epicDigSpotPrefab;
+    public GameObject legendaryDigSpotPrefab;
     public int maxDigSpots = 1;
     public RarityManager rarityManager;
 
@@ -29,15 +32,51 @@ public class DigZoneManager : MonoBehaviour
             Random.Range(zBounds.x, zBounds.y)
         );
 
-        GameObject newSpot = Instantiate(digSpotPrefab, newPos, Quaternion.identity);
-        DigSpot digScript = newSpot.AddComponent<DigSpot>();
+        Rarity rarity = rarityManager.GetRandomRarity();
+
+        // ✅ This method must return the correct prefab
+        GameObject prefabToUse = GetPrefabForRarity(rarity);
+
+        if (prefabToUse == null)
+        {
+            Debug.LogError($"❌ No prefab assigned for rarity {rarity}");
+            return;
+        }
+
+        GameObject newSpot = Instantiate(prefabToUse, newPos, Quaternion.identity);
+        DigSpot digScript = newSpot.GetComponent<DigSpot>();
+
+        if (digScript == null)
+        {
+            Debug.LogError($"❌ Prefab {prefabToUse.name} does not contain DigSpot script");
+            return;
+        }
+
         digScript.manager = this;
         digScript.ownerTeam = team;
+        digScript.rarity = rarity;
 
-        // ✅ Assign rarity via RarityManager
-        digScript.rarity = rarityManager.GetRandomRarity();
+        Debug.Log($"✅ Spawned DigSpot of rarity {rarity} using prefab {prefabToUse.name}");
 
         activeSpots.Add(digScript);
+    }
+
+    private GameObject GetPrefabForRarity(Rarity rarity)
+    {
+        switch (rarity)
+        {
+            case Rarity.Common:
+                return commonDigSpotPrefab;
+            case Rarity.Rare:
+                return rareDigSpotPrefab;
+            case Rarity.Epic:
+                return epicDigSpotPrefab;
+            case Rarity.Legendary:
+                return legendaryDigSpotPrefab;
+            default:
+                Debug.LogWarning("⚠️ Invalid rarity provided: " + rarity);
+                return null;
+        }
     }
 
     public bool IsPlayerNearAnySpot(Vector3 playerPos, out DigSpot matchedSpot, float maxDistance)

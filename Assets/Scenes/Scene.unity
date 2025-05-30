@@ -9360,7 +9360,10 @@ MonoBehaviour:
   xBounds: {x: -3, y: 43}
   zBounds: {x: -38, y: 37}
   yHeight: 2.71
-  digSpotPrefab: {fileID: 3572346944648507463, guid: c906c15861fbb63459a756e2ec4bf329, type: 3}
+  commonDigSpotPrefab: {fileID: 3572346944648507463, guid: 3ad02293119e2514fbc74504ed2d5ac5, type: 3}
+  rareDigSpotPrefab: {fileID: 3572346944648507463, guid: bae5ba73b587ee442b04250e8246bbe5, type: 3}
+  epicDigSpotPrefab: {fileID: 3572346944648507463, guid: c906c15861fbb63459a756e2ec4bf329, type: 3}
+  legendaryDigSpotPrefab: {fileID: 3572346944648507463, guid: ecca9c29da9e6c5488703622a663d386, type: 3}
   maxDigSpots: 8
   rarityManager: {fileID: 11400000, guid: 51c7006e4f3a704429d93e0076054f73, type: 2}
 --- !u!4 &1103596331
@@ -12436,10 +12439,20 @@ MonoBehaviour:
   digZoneManager: {fileID: 1103596330}
   baseDigLimit: 7
   spawnPrefabs:
-  - {fileID: 8473347937480995496, guid: 1de271fd83a36d94abbd8c5494c94102, type: 3}
   - {fileID: 7804439257730310873, guid: abc18aa864049a748a725b9abb4d70a3, type: 3}
+  - {fileID: 7804439257730310873, guid: 01f26cf687d89df4eb4d2f1468501941, type: 3}
+  - {fileID: 7804439257730310873, guid: 6457524c4ad6ef845a2962e29d868356, type: 3}
+  - {fileID: 7804439257730310873, guid: cc82be33720688f4999acf4fc7143253, type: 3}
   - {fileID: 5723662376767878825, guid: 9b5bff0e65e45c14c874493fa8d40c9c, type: 3}
+  - {fileID: 5723662376767878825, guid: f43d0e0e403035845a73df2c4cd3f49b, type: 3}
+  - {fileID: 5723662376767878825, guid: 75c92df34118d2848a103bd980ccc94a, type: 3}
+  - {fileID: 5723662376767878825, guid: 610de98f48d496d4fb1606327d794b8f, type: 3}
+  - {fileID: 8473347937480995496, guid: 1de271fd83a36d94abbd8c5494c94102, type: 3}
+  - {fileID: 8473347937480995496, guid: 14696c0a6af0dc8418d89a172bd1152d, type: 3}
   - {fileID: 9027108505464808653, guid: 01c1715fab89b394ca40b9ea1ecc9d11, type: 3}
+  - {fileID: 9027108505464808653, guid: e7c2e4036c6837c4ebb740a0477a83b7, type: 3}
+  - {fileID: 9027108505464808653, guid: b9230de98f2dfe94c954b9b986bc594b, type: 3}
+  - {fileID: 9027108505464808653, guid: 53a59fbc15674c140a729b9eb35f8da9, type: 3}
   spawnRiseAmount: 2
   spawnShrinkTime: 1.5
   spawnRotationSpeed: 120
@@ -12448,6 +12461,10 @@ MonoBehaviour:
   tankScript: {fileID: 267359266}
   playerTeam: Red
   rarityManager: {fileID: 11400000, guid: 51c7006e4f3a704429d93e0076054f73, type: 2}
+  commonParticles: {fileID: 9174937415829773345, guid: c78a85b27229ad647a3eb69ff769e82d, type: 3}
+  rareParticles: {fileID: 9174937415829773345, guid: e032271795c629e4a8dfb183938af612, type: 3}
+  epicParticles: {fileID: 9174937415829773345, guid: e11dbefabb3f6074c9f9108553135492, type: 3}
+  legendaryParticles: {fileID: 9174937415829773345, guid: f967ca749ef040146a6271f6037e6868, type: 3}
 --- !u!114 &1440896354
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13096,10 +13113,20 @@ MonoBehaviour:
   digZoneManager: {fileID: 1103596330}
   baseDigLimit: 7
   spawnPrefabs:
-  - {fileID: 8473347937480995496, guid: 1de271fd83a36d94abbd8c5494c94102, type: 3}
   - {fileID: 7804439257730310873, guid: abc18aa864049a748a725b9abb4d70a3, type: 3}
+  - {fileID: 7804439257730310873, guid: 01f26cf687d89df4eb4d2f1468501941, type: 3}
+  - {fileID: 7804439257730310873, guid: cc82be33720688f4999acf4fc7143253, type: 3}
+  - {fileID: 7804439257730310873, guid: 6457524c4ad6ef845a2962e29d868356, type: 3}
   - {fileID: 5723662376767878825, guid: 9b5bff0e65e45c14c874493fa8d40c9c, type: 3}
+  - {fileID: 5723662376767878825, guid: f43d0e0e403035845a73df2c4cd3f49b, type: 3}
+  - {fileID: 5723662376767878825, guid: 75c92df34118d2848a103bd980ccc94a, type: 3}
+  - {fileID: 5723662376767878825, guid: 610de98f48d496d4fb1606327d794b8f, type: 3}
+  - {fileID: 8473347937480995496, guid: 1de271fd83a36d94abbd8c5494c94102, type: 3}
+  - {fileID: 8473347937480995496, guid: 14696c0a6af0dc8418d89a172bd1152d, type: 3}
   - {fileID: 9027108505464808653, guid: 01c1715fab89b394ca40b9ea1ecc9d11, type: 3}
+  - {fileID: 9027108505464808653, guid: e7c2e4036c6837c4ebb740a0477a83b7, type: 3}
+  - {fileID: 9027108505464808653, guid: b9230de98f2dfe94c954b9b986bc594b, type: 3}
+  - {fileID: 9027108505464808653, guid: 53a59fbc15674c140a729b9eb35f8da9, type: 3}
   spawnRiseAmount: 2
   spawnShrinkTime: 1.5
   spawnRotationSpeed: 120
@@ -13108,6 +13135,10 @@ MonoBehaviour:
   tankScript: {fileID: 267359266}
   playerTeam: Blue
   rarityManager: {fileID: 11400000, guid: 51c7006e4f3a704429d93e0076054f73, type: 2}
+  commonParticles: {fileID: 9174937415829773345, guid: c78a85b27229ad647a3eb69ff769e82d, type: 3}
+  rareParticles: {fileID: 9174937415829773345, guid: e032271795c629e4a8dfb183938af612, type: 3}
+  epicParticles: {fileID: 9174937415829773345, guid: e11dbefabb3f6074c9f9108553135492, type: 3}
+  legendaryParticles: {fileID: 9174937415829773345, guid: f967ca749ef040146a6271f6037e6868, type: 3}
 --- !u!114 &1471923283
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18530,18 +18561,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 2982931863621103612, guid: e3ad226bccc0eaa459287fde91252cef, type: 3}
   m_PrefabInstance: {fileID: 1082319824}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &2049778582
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2049778578}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e26d559246a3bb94590f7871a2684f1b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &2049778583
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18562,9 +18581,17 @@ MonoBehaviour:
   rotationSpeed_basic: 15
   bounceHeight_basic: 1.5
   bounceSpeed_basic: 3.5
-  rarityManager: {fileID: 0}
-  epicObjects: []
-  legendaryObjects: []
+  rarityManager: {fileID: 11400000, guid: 51c7006e4f3a704429d93e0076054f73, type: 2}
+  epicObjects:
+  - {fileID: 7804439257730310873, guid: 01f26cf687d89df4eb4d2f1468501941, type: 3}
+  - {fileID: 5723662376767878825, guid: f43d0e0e403035845a73df2c4cd3f49b, type: 3}
+  - {fileID: 8473347937480995496, guid: 1de271fd83a36d94abbd8c5494c94102, type: 3}
+  - {fileID: 9027108505464808653, guid: e7c2e4036c6837c4ebb740a0477a83b7, type: 3}
+  legendaryObjects:
+  - {fileID: 9027108505464808653, guid: b9230de98f2dfe94c954b9b986bc594b, type: 3}
+  - {fileID: 8473347937480995496, guid: 14696c0a6af0dc8418d89a172bd1152d, type: 3}
+  - {fileID: 7804439257730310873, guid: cc82be33720688f4999acf4fc7143253, type: 3}
+  - {fileID: 5723662376767878825, guid: 75c92df34118d2848a103bd980ccc94a, type: 3}
 --- !u!4 &2054868000 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7906807967234774446, guid: e1165b0705c502547adca52ba573c1d3, type: 3}

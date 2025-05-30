@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
 public class PlayerActionDetection : MonoBehaviour
 {
     [Header("Digging Detection Settings")]
@@ -33,7 +32,11 @@ public class PlayerActionDetection : MonoBehaviour
     [SerializeField] private string playerTeam = "Red";
 
     [Header("Rarity Visuals")]
-    [SerializeField] private RarityManager rarityManager; // ✅ This must be assigned in the Inspector
+    [SerializeField] private RarityManager rarityManager;
+    [SerializeField] private GameObject commonParticles;
+    [SerializeField] private GameObject rareParticles;
+    [SerializeField] private GameObject epicParticles;
+    [SerializeField] private GameObject legendaryParticles;
 
     private Vector3 lastPosition;
     private Vector3 currentVelocity;
@@ -168,7 +171,7 @@ public class PlayerActionDetection : MonoBehaviour
                     {
                         lastDigSpot = spot;
                         diggingFeedback.TriggerDig();
-                        diggingFeedback.ShowRarityColor(spot.rarity, rarityManager); // ✅ Add color feedback
+                        diggingFeedback.ShowRarityColor(spot.rarity, rarityManager);
                         lastCompletedDigPosition = spot.transform.position;
 
                         currentDigLimit--;
@@ -234,16 +237,25 @@ public class PlayerActionDetection : MonoBehaviour
         GameObject instance = Instantiate(selectedPrefab, lastCompletedDigPosition, Quaternion.identity);
         instance.transform.localScale *= prefabScaleMultiplier;
 
-        // Apply glow color
-        if (rarityManager != null)
+        // 🔥 Add rarity-based particle effect
+        GameObject particlePrefab = null;
+        switch (lastDigSpot.rarity)
         {
-            Color glow = rarityManager.GetColor(lastDigSpot.rarity);
-            var renderer = instance.GetComponent<Renderer>();
-            if (renderer && renderer.material.HasProperty("_EmissionColor"))
-            {
-                renderer.material.EnableKeyword("_EMISSION");
-                renderer.material.SetColor("_EmissionColor", glow);
-            }
+            case Rarity.Common:
+                particlePrefab = commonParticles; break;
+            case Rarity.Rare:
+                particlePrefab = rareParticles; break;
+            case Rarity.Epic:
+                particlePrefab = epicParticles; break;
+            case Rarity.Legendary:
+                particlePrefab = legendaryParticles; break;
+        }
+
+        if (particlePrefab != null)
+        {
+            GameObject effect = Instantiate(particlePrefab, instance.transform.position, Quaternion.identity, instance.transform);
+            var ps = effect.GetComponent<ParticleSystem>();
+            if (ps != null) ps.Play();
         }
 
         if (tankScript != null)
