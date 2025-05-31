@@ -1109,6 +1109,10 @@ MonoBehaviour:
   tankScript: {fileID: 0}
   playerTeam: Blue
   rarityManager: {fileID: 0}
+  commonParticles: {fileID: 0}
+  rareParticles: {fileID: 0}
+  epicParticles: {fileID: 0}
+  legendaryParticles: {fileID: 0}
 --- !u!114 &329293534
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2474,7 +2478,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 734094457}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -8.954656, y: -25.236374, z: 27.668093}
+  m_LocalPosition: {x: -8.954656, y: -25.236374, z: 3.6}
   m_LocalScale: {x: 24.58, y: 1, z: 14.03}
   m_Children: []
   m_Father: {fileID: 1160723664}
@@ -3731,7 +3735,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 953324916}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -8.954656, y: -25.236374, z: -37.431908}
+  m_LocalPosition: {x: -8.954656, y: -25.236374, z: -13}
   m_LocalScale: {x: 24.58, y: 1, z: 14.03}
   m_Children: []
   m_Father: {fileID: 1160723664}
@@ -7126,7 +7130,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   calibrationUI: {fileID: 822316110}
   trackingInterface: {fileID: 822316107}
-  enableTracking: 1
+  enableTracking: 0
   numberOfPlayers: 2
   numberOfBaseStations: 4
   enableRotation: 0
@@ -7241,7 +7245,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 90, y: 90, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 32.6, y: 0}
   m_SizeDelta: {x: 964, y: 566.6667}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1966794531
@@ -8089,6 +8093,10 @@ MonoBehaviour:
   tankScript: {fileID: 0}
   playerTeam: Red
   rarityManager: {fileID: 0}
+  commonParticles: {fileID: 0}
+  rareParticles: {fileID: 0}
+  epicParticles: {fileID: 0}
+  legendaryParticles: {fileID: 0}
 --- !u!114 &2064500155
 MonoBehaviour:
   m_ObjectHideFlags: 0

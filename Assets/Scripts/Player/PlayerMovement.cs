@@ -1,14 +1,32 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class PlayerMovement : MonoBehaviour
 {
     [Header("Movement Settings")]
     public float moveSpeed = 2.0f;
 
+
+    private bool isDisabled = false;
+    private float disableTimer = 0f;
+
+
+    public void DisableMovement(float seconds)
+    {
+        isDisabled = true;
+        disableTimer = seconds;
+    }
+
     void Update()
     {
+        if (isDisabled)
+        {
+            disableTimer -= Time.deltaTime;
+            if (disableTimer <= 0f) isDisabled = false;
+            return; // Skip movement while disabled
+        }
         Vector3 moveDir = Vector3.zero;
 
         // Horizontal movement (WASD)

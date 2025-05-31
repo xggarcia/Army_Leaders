@@ -1,6 +1,7 @@
 using System.Runtime.CompilerServices;
 using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class BaseHealthController : MonoBehaviour
 {
@@ -13,15 +14,16 @@ public class BaseHealthController : MonoBehaviour
     public GameObject new_base; 
 
     private bool exploded = false; 
+    private bool base_spawned = false;
 
     void Update()
     {
         if (RedBaseHealth <= 0)
         {
             DestroyBaseAnimation(red_base);
-            
 
-            SpawnNewBase(red_base);
+
+            StartCoroutine(SpawnNewBase(red_base));
 
             Debug.Log("Blue team has won! Game paused.");
 
@@ -30,8 +32,9 @@ public class BaseHealthController : MonoBehaviour
         {
             DestroyBaseAnimation(blue_base);
 
-            SpawnNewBase(blue_base);
+            StartCoroutine(SpawnNewBase(blue_base));
             Debug.Log("Red team has won! Game paused.");
+
         }
     }
 
@@ -88,23 +91,29 @@ public class BaseHealthController : MonoBehaviour
 
     private IEnumerator SpawnNewBase(GameObject base_color)
     {
-        if (base_color == red_base)
+        if (base_color == red_base & !base_spawned)
         {
             yield return new WaitForSeconds(3f);
             Destroy(red_base);
-            Vector3 spawnPosition = new Vector3(-15f, 5.1f, 21.5f);
+            Vector3 spawnPosition = new Vector3(-11f, 5.1f, 21.5f);
             Instantiate(new_base, spawnPosition, Quaternion.identity);
+            base_spawned = true;
 
         }
-        else if (base_color == blue_base)
+        else if (base_color == blue_base & !base_spawned)
         {
             yield return new WaitForSeconds(3f);
             Destroy(blue_base);
-            Vector3 spawnPosition = new Vector3(-15f, 5.1f, -21.5f);
+            Vector3 spawnPosition = new Vector3(-11f, 5.1f, -21.5f);
             Instantiate(new_base, spawnPosition, Quaternion.identity);
-
+            base_spawned = true; 
 
         }
+
+        yield return new WaitForSeconds(5f);
+        SceneManager.LoadScene("MenuScene");
+
+
 
     }
 }

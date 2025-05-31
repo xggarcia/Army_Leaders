@@ -21,18 +21,27 @@ public class Combat : MonoBehaviour
 
     [Header("Special Objects")]
     public GameObject specialDigObject;
-    public GameObject healingDigObject;
-    public int healingAmount = 10;
+    public GameObject specialDigObject2;
+
+    public List<HealingObject> healingObjects;  // NEW
 
     [Header("UI Events")]
-    public UnityEvent<string> OnGameOver;  // Llamado cuando el juego termina
+    public UnityEvent<string> OnGameOver;
+
+    [Header("Bomb")]
+    public GameObject bomb_epic;
+    public GameObject bomb_legendeary; 
+
+    [Header("Explosion")]
+    public GameObject explosion;
+    public Vector3 REDexplosionCordinates;
+    public Vector3 BLUEexplosionCordinates;
 
     private float currentZ = 0f;
     private bool isDamagingBase = false;
     private string winningTeam = "";
     private float damageTimer = 0f;
 
-    // Propiedades públicas para que la UI pueda acceder
     public bool IsDamagingBase => isDamagingBase;
     public string CurrentWinningTeam => winningTeam;
     public float TankPosition => currentZ;
@@ -45,6 +54,7 @@ public class Combat : MonoBehaviour
 
     void Update()
     {
+        // Damage base if touching it
         if (isDamagingBase)
         {
             damageTimer += Time.deltaTime;
@@ -52,12 +62,18 @@ public class Combat : MonoBehaviour
             {
                 damageTimer = 0f;
                 int damage = (winningTeam == "Red") ? redTeamStats.power : blueTeamStats.power;
+
                 if (winningTeam == "Red")
+                {
                     baseHealthController.RemoveHealth(damage, "blue");
+                    DamageAnimation("blue");
+                }
                 else if (winningTeam == "Blue")
+                {
                     baseHealthController.RemoveHealth(damage, "red");
+                    DamageAnimation("red");
+                }
             }
-            return;
         }
 
         float scoreRed = redTeamStats.GetScore();
@@ -72,15 +88,21 @@ public class Combat : MonoBehaviour
             currentZ = Mathf.Clamp(currentZ, minZ, maxZ);
             transform.position = new Vector3(transform.position.x, transform.position.y, currentZ);
 
-            if (currentZ <= minZ || currentZ >= maxZ)
+            // Winner is only declared if tank reaches far edge
+            if (currentZ <= minZ)
             {
-                winningTeam = (currentZ >= maxZ) ? "Blue" : "Red";
-                Debug.Log($"Game Over! {winningTeam} team wins!");
-                isDamagingBase = true;
-                
-                // Trigger the UI event
-                OnGameOver?.Invoke(winningTeam);
+                winningTeam = "Red";
             }
+            else if (currentZ >= maxZ)
+            {
+                winningTeam = "Blue";
+            }
+            else
+            {
+                winningTeam = "";
+            }
+
+            isDamagingBase = (winningTeam != "");
         }
     }
 
@@ -94,20 +116,43 @@ public class Combat : MonoBehaviour
                     redTeamStats.ApplyModifier(mod);
                 else if (team == "Blue")
                     blueTeamStats.ApplyModifier(mod);
-
                 break;
             }
         }
 
-        if (dugObject.name == healingDigObject.name)
+        foreach (HealingObject heal in healingObjects)
         {
-            if (team == "Red")
-                baseHealthController.AddHealth(healingAmount, "red");
-            else if (team == "Blue")
-                baseHealthController.AddHealth(healingAmount, "blue");
+            if (dugObject.name == heal.prefab.name)
+            {
+                if (team == "Red")
+                    baseHealthController.AddHealth(heal.healingAmount, "red");
+                else if (team == "Blue")
+                    baseHealthController.AddHealth(heal.healingAmount, "blue");
 
-            Debug.Log($"Healing object collected by {team} team. Base healed by {healingAmount}.");
+                Debug.Log($"Healing object collected by {team} team. Base healed by {heal.healingAmount}.");
+                break;
+            }
         }
+    }
+
+    private void DamageAnimation(string base_color)
+    {
+        if (explosion == null)
+        {
+            Debug.LogError("Explosion prefab not assigned in Combat script!");
+            return;
+        }
+
+        GameObject fx = CFX_SpawnSystem.GetNextObject(explosion);
+        if (fx == null)
+        {
+            Debug.LogWarning("No available explosion instances in pool!");
+            return;
+        }
+
+        fx.transform.position = (base_color == "blue") ? BLUEexplosionCordinates : REDexplosionCordinates;
+        fx.transform.rotation = Quaternion.identity;
+        fx.SetActive(true);
     }
 }
 
@@ -138,4 +183,12 @@ public class StatModifier
     public int powerBoost;
     public int defenseBoost;
     public int speedBoost;
+}
+
+// ✅ NEW STRUCT FOR MULTIPLE HEALERS
+[System.Serializable]
+public class HealingObject
+{
+    public GameObject prefab;
+    public int healingAmount;
 }

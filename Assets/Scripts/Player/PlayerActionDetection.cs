@@ -84,6 +84,8 @@ public class PlayerActionDetection : MonoBehaviour
         }
     }
 
+
+
     private void DetectCubeAction()
     {
         Vector3 currentPosition = transform.position;
@@ -235,6 +237,19 @@ public class PlayerActionDetection : MonoBehaviour
 
         GameObject selectedPrefab = filteredPrefabs[Random.Range(0, filteredPrefabs.Count)];
         GameObject instance = Instantiate(selectedPrefab, lastCompletedDigPosition, Quaternion.identity);
+        if (instance.GetComponent<BombHandler>() != null)
+        {
+            // Let the normal prefab animate/disappear
+            StartCoroutine(AnimateSpawnedObject(instance));
+
+            // Spawn a second bomb that attaches to the player
+            GameObject bombCopy = Instantiate(selectedPrefab, transform.position, Quaternion.identity);
+            bombCopy.transform.localScale *= 30.0f; // ✅ increase size (you can tweak this factor)
+            BombHandler bomb = bombCopy.GetComponent<BombHandler>();
+            bomb.AttachToPlayer(this.gameObject);
+            return instance;
+        }
+
         instance.transform.localScale *= prefabScaleMultiplier;
 
         // 🔥 Add rarity-based particle effect
@@ -266,16 +281,17 @@ public class PlayerActionDetection : MonoBehaviour
             {
                 ReducePlayerDigLimit();
             }
-
-            if (selectedPrefab.CompareTag("Shovel"))
+            else if(selectedPrefab.name == tankScript.specialDigObject2.name)
             {
-                if (lastDigSpot.rarity == Rarity.Epic)
-                    baseDigLimit = Mathf.Max(1, baseDigLimit - 1);
-                else if (lastDigSpot.rarity == Rarity.Legendary)
-                    baseDigLimit = Mathf.Max(1, baseDigLimit - 2);
+                 ReducePlayerDigLimit();
+                 ReducePlayerDigLimit();
             }
-        }
 
+
+        }
+        // If the object is a bomb, attach it and skip animation
+
+        // Not a bomb → animate and destroy
         StartCoroutine(AnimateSpawnedObject(instance));
         return instance;
     }
@@ -289,6 +305,8 @@ public class PlayerActionDetection : MonoBehaviour
 
         while (elapsed < spawnShrinkTime)
         {
+            if (obj == null) yield break; // ✅ safely exit if object is destroyed
+
             float t = elapsed / spawnShrinkTime;
 
             obj.transform.position = Vector3.Lerp(originalPos, targetPos, t);
@@ -299,6 +317,8 @@ public class PlayerActionDetection : MonoBehaviour
             yield return null;
         }
 
-        Destroy(obj);
+        if (obj != null)
+            Destroy(obj);
     }
+
 }

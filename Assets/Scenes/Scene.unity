@@ -2797,7 +2797,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minZ: -16.67
   maxZ: 16.67
-  maxMoveSpeed: 2
+  maxMoveSpeed: 0.5
   redTeamStats:
     power: 0
     defense: 0
@@ -2811,14 +2811,34 @@ MonoBehaviour:
     powerBoost: 0
     defenseBoost: 1
     speedBoost: 0
+  - prefab: {fileID: 5723662376767878825, guid: 610de98f48d496d4fb1606327d794b8f, type: 3}
+    powerBoost: 0
+    defenseBoost: 2
+    speedBoost: 0
+  - prefab: {fileID: 5723662376767878825, guid: f43d0e0e403035845a73df2c4cd3f49b, type: 3}
+    powerBoost: 0
+    defenseBoost: 4
+    speedBoost: 0
+  - prefab: {fileID: 9027108505464808653, guid: 53a59fbc15674c140a729b9eb35f8da9, type: 3}
+    powerBoost: 2
+    defenseBoost: 0
+    speedBoost: 0
   - prefab: {fileID: 9027108505464808653, guid: 01c1715fab89b394ca40b9ea1ecc9d11, type: 3}
     powerBoost: 1
     defenseBoost: 0
     speedBoost: 0
+  - prefab: {fileID: 9027108505464808653, guid: e7c2e4036c6837c4ebb740a0477a83b7, type: 3}
+    powerBoost: 4
+    defenseBoost: 0
+    speedBoost: 0
   baseHealthController: {fileID: 1663680537}
   specialDigObject: {fileID: 8473347937480995496, guid: 1de271fd83a36d94abbd8c5494c94102, type: 3}
-  healingDigObject: {fileID: 7804439257730310873, guid: abc18aa864049a748a725b9abb4d70a3, type: 3}
-  healingAmount: 25
+  specialDigObject2: {fileID: 8473347937480995496, guid: 14696c0a6af0dc8418d89a172bd1152d, type: 3}
+  healingObjects:
+  - prefab: {fileID: 7804439257730310873, guid: 6457524c4ad6ef845a2962e29d868356, type: 3}
+    healingAmount: 8
+  - prefab: {fileID: 7804439257730310873, guid: 01f26cf687d89df4eb4d2f1468501941, type: 3}
+    healingAmount: 15
   OnGameOver:
     m_PersistentCalls:
       m_Calls:
@@ -2834,6 +2854,11 @@ MonoBehaviour:
           m_StringArgument: ShowGameOver
           m_BoolArgument: 0
         m_CallState: 2
+  bomb_epic: {fileID: 0}
+  bomb_legendeary: {fileID: 0}
+  explosion: {fileID: 100006, guid: 4575df893a6e3f64a8283dee38413a34, type: 3}
+  REDexplosionCordinates: {x: -15, y: 7, z: 20.5}
+  BLUEexplosionCordinates: {x: -15, y: 7, z: -20.5}
 --- !u!1 &271862174
 GameObject:
   m_ObjectHideFlags: 0
@@ -11596,7 +11621,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectsToPreload:
   - {fileID: 100010, guid: e0609132424a24844b1d53ad3d704fd9, type: 3}
-  objectsToPreloadTimes: 05000000
+  - {fileID: 100006, guid: 4575df893a6e3f64a8283dee38413a34, type: 3}
+  - {fileID: 100002, guid: 6ecf76dc4f268d340b2666896a954bcc, type: 3}
+  objectsToPreloadTimes: 050000002c01000014000000
   hideObjectsInHierarchy: 0
   spawnAsChildren: 1
   onlyGetInactiveObjects: 0
@@ -12437,22 +12464,20 @@ MonoBehaviour:
   digOrigin: {fileID: 39626085}
   cubeObject: {fileID: 2049778578}
   digZoneManager: {fileID: 1103596330}
-  baseDigLimit: 7
+  baseDigLimit: 1
   spawnPrefabs:
-  - {fileID: 7804439257730310873, guid: abc18aa864049a748a725b9abb4d70a3, type: 3}
   - {fileID: 7804439257730310873, guid: 01f26cf687d89df4eb4d2f1468501941, type: 3}
   - {fileID: 7804439257730310873, guid: 6457524c4ad6ef845a2962e29d868356, type: 3}
-  - {fileID: 7804439257730310873, guid: cc82be33720688f4999acf4fc7143253, type: 3}
   - {fileID: 5723662376767878825, guid: 9b5bff0e65e45c14c874493fa8d40c9c, type: 3}
   - {fileID: 5723662376767878825, guid: f43d0e0e403035845a73df2c4cd3f49b, type: 3}
-  - {fileID: 5723662376767878825, guid: 75c92df34118d2848a103bd980ccc94a, type: 3}
   - {fileID: 5723662376767878825, guid: 610de98f48d496d4fb1606327d794b8f, type: 3}
   - {fileID: 8473347937480995496, guid: 1de271fd83a36d94abbd8c5494c94102, type: 3}
   - {fileID: 8473347937480995496, guid: 14696c0a6af0dc8418d89a172bd1152d, type: 3}
   - {fileID: 9027108505464808653, guid: 01c1715fab89b394ca40b9ea1ecc9d11, type: 3}
   - {fileID: 9027108505464808653, guid: e7c2e4036c6837c4ebb740a0477a83b7, type: 3}
-  - {fileID: 9027108505464808653, guid: b9230de98f2dfe94c954b9b986bc594b, type: 3}
   - {fileID: 9027108505464808653, guid: 53a59fbc15674c140a729b9eb35f8da9, type: 3}
+  - {fileID: 5982403170355360429, guid: 9255c1bed3e5c4549a6acc979ba9babd, type: 3}
+  - {fileID: 5982403170355360429, guid: a4411632372a8024a8beef640ced70f0, type: 3}
   spawnRiseAmount: 2
   spawnShrinkTime: 1.5
   spawnRotationSpeed: 120
@@ -13056,7 +13081,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1471923275}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -26.8, y: 2, z: 23.4}
+  m_LocalPosition: {x: 18.4, y: 2, z: 4.8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1806896285}
@@ -13113,20 +13138,18 @@ MonoBehaviour:
   digZoneManager: {fileID: 1103596330}
   baseDigLimit: 7
   spawnPrefabs:
-  - {fileID: 7804439257730310873, guid: abc18aa864049a748a725b9abb4d70a3, type: 3}
   - {fileID: 7804439257730310873, guid: 01f26cf687d89df4eb4d2f1468501941, type: 3}
-  - {fileID: 7804439257730310873, guid: cc82be33720688f4999acf4fc7143253, type: 3}
   - {fileID: 7804439257730310873, guid: 6457524c4ad6ef845a2962e29d868356, type: 3}
   - {fileID: 5723662376767878825, guid: 9b5bff0e65e45c14c874493fa8d40c9c, type: 3}
   - {fileID: 5723662376767878825, guid: f43d0e0e403035845a73df2c4cd3f49b, type: 3}
-  - {fileID: 5723662376767878825, guid: 75c92df34118d2848a103bd980ccc94a, type: 3}
   - {fileID: 5723662376767878825, guid: 610de98f48d496d4fb1606327d794b8f, type: 3}
   - {fileID: 8473347937480995496, guid: 1de271fd83a36d94abbd8c5494c94102, type: 3}
   - {fileID: 8473347937480995496, guid: 14696c0a6af0dc8418d89a172bd1152d, type: 3}
   - {fileID: 9027108505464808653, guid: 01c1715fab89b394ca40b9ea1ecc9d11, type: 3}
   - {fileID: 9027108505464808653, guid: e7c2e4036c6837c4ebb740a0477a83b7, type: 3}
-  - {fileID: 9027108505464808653, guid: b9230de98f2dfe94c954b9b986bc594b, type: 3}
   - {fileID: 9027108505464808653, guid: 53a59fbc15674c140a729b9eb35f8da9, type: 3}
+  - {fileID: 5982403170355360429, guid: 9255c1bed3e5c4549a6acc979ba9babd, type: 3}
+  - {fileID: 5982403170355360429, guid: a4411632372a8024a8beef640ced70f0, type: 3}
   spawnRiseAmount: 2
   spawnShrinkTime: 1.5
   spawnRotationSpeed: 120
