@@ -35,7 +35,7 @@ public class DigZoneManager : MonoBehaviour
 
             if (currentActive < 3)
                 spawnChance = 1f; // 100%
-            else if (currentActive < 5)
+            else if (currentActive < 6)
                 spawnChance = 0.5f; // 50%
             else if (currentActive < 10)
                 spawnChance = 0.20f; // 15%
