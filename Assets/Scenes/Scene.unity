@@ -11148,7 +11148,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1273883422}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -9.430385, y: -68.229965, z: 47.21222}
+  m_LocalPosition: {x: -9.430385, y: -70.68, z: 47.21222}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 370131372}
@@ -12464,7 +12464,7 @@ MonoBehaviour:
   digOrigin: {fileID: 39626085}
   cubeObject: {fileID: 2049778578}
   digZoneManager: {fileID: 1103596330}
-  baseDigLimit: 1
+  baseDigLimit: 7
   spawnPrefabs:
   - {fileID: 7804439257730310873, guid: 01f26cf687d89df4eb4d2f1468501941, type: 3}
   - {fileID: 7804439257730310873, guid: 6457524c4ad6ef845a2962e29d868356, type: 3}
@@ -18597,8 +18597,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotationSpeed: 720
-  shrinkDuration: 1.5
-  cooldown: 5
+  shrinkDuration: 0.5
+  cooldown: 15
   appearDuration: 1
   hideYOffset: -34.7
   rotationSpeed_basic: 15
@@ -18606,15 +18606,14 @@ MonoBehaviour:
   bounceSpeed_basic: 3.5
   rarityManager: {fileID: 11400000, guid: 51c7006e4f3a704429d93e0076054f73, type: 2}
   epicObjects:
+  - {fileID: 5982403170355360429, guid: 9255c1bed3e5c4549a6acc979ba9babd, type: 3}
   - {fileID: 7804439257730310873, guid: 01f26cf687d89df4eb4d2f1468501941, type: 3}
-  - {fileID: 5723662376767878825, guid: f43d0e0e403035845a73df2c4cd3f49b, type: 3}
   - {fileID: 8473347937480995496, guid: 1de271fd83a36d94abbd8c5494c94102, type: 3}
+  - {fileID: 5723662376767878825, guid: f43d0e0e403035845a73df2c4cd3f49b, type: 3}
   - {fileID: 9027108505464808653, guid: e7c2e4036c6837c4ebb740a0477a83b7, type: 3}
   legendaryObjects:
-  - {fileID: 9027108505464808653, guid: b9230de98f2dfe94c954b9b986bc594b, type: 3}
+  - {fileID: 5982403170355360429, guid: a4411632372a8024a8beef640ced70f0, type: 3}
   - {fileID: 8473347937480995496, guid: 14696c0a6af0dc8418d89a172bd1152d, type: 3}
-  - {fileID: 7804439257730310873, guid: cc82be33720688f4999acf4fc7143253, type: 3}
-  - {fileID: 5723662376767878825, guid: 75c92df34118d2848a103bd980ccc94a, type: 3}
 --- !u!4 &2054868000 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7906807967234774446, guid: e1165b0705c502547adca52ba573c1d3, type: 3}

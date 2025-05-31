@@ -14,14 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   raritySettings:
   - rarity: 0
-    spawnProbability: 0
+    spawnProbability: 0.6
     glowColor: {r: 1, g: 1, b: 1, a: 0}
   - rarity: 1
-    spawnProbability: 0
+    spawnProbability: 0.25
     glowColor: {r: 0, g: 1, b: 0, a: 0}
   - rarity: 2
-    spawnProbability: 0
+    spawnProbability: 0.1
     glowColor: {r: 0.5019608, g: 0, b: 0.5019608, a: 0}
   - rarity: 3
-    spawnProbability: 1
+    spawnProbability: 0.05
     glowColor: {r: 1, g: 1, b: 0, a: 0}

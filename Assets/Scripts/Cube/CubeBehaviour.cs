@@ -22,11 +22,17 @@ public class CubeBehaviour : MonoBehaviour
     private Vector3 startPosition;
     private bool onCooldown = false;
 
+    private PlayerActionDetection playerDetector;
+
+
     void Start()
     {
         initialScale = transform.localScale;
         startPosition = transform.position;
+
+        playerDetector = GameObject.FindWithTag("Player")?.GetComponent<PlayerActionDetection>();
     }
+
 
     void Update()
     {
@@ -42,17 +48,21 @@ public class CubeBehaviour : MonoBehaviour
 
     public void CubeActivation()
     {
-        if (!onCooldown)
-        {
-            Rarity rarity = rarityManager.GetRandomRarity(epicOnly: true);
-            GameObject objToSpawn = (rarity == Rarity.Epic) ?
-                epicObjects[Random.Range(0, epicObjects.Length)] :
-                legendaryObjects[Random.Range(0, legendaryObjects.Length)];
+        if (onCooldown || playerDetector == null)
+            return;
 
-            Instantiate(objToSpawn, transform.position, Quaternion.identity);
-            StartCoroutine(AnimateCubeAndRespawn());
-        }
+        // 2/3 Epic, 1/3 Legendary
+        Rarity rarity = (Random.value < 2f / 3f) ? Rarity.Epic : Rarity.Legendary;
+
+        GameObject objToSpawn = (rarity == Rarity.Epic) ?
+            epicObjects[Random.Range(0, epicObjects.Length)] :
+            legendaryObjects[Random.Range(0, legendaryObjects.Length)];
+
+        playerDetector.SpawnReward(objToSpawn, rarity);
+
+        StartCoroutine(AnimateCubeAndRespawn());
     }
+
 
 
     private IEnumerator AnimateCubeAndRespawn()

@@ -321,4 +321,60 @@ public class PlayerActionDetection : MonoBehaviour
             Destroy(obj);
     }
 
+    public void SpawnReward(GameObject prefab, Rarity rarity)
+    {
+        Vector3 spawnPosition = transform.position + Vector3.forward * 1.5f;  // in front of player
+        GameObject instance = Instantiate(prefab, spawnPosition, Quaternion.identity);
+        instance.transform.localScale *= prefabScaleMultiplier;
+
+        // Particles
+        GameObject particlePrefab = null;
+        switch (rarity)
+        {
+            case Rarity.Common: particlePrefab = commonParticles; break;
+            case Rarity.Rare: particlePrefab = rareParticles; break;
+            case Rarity.Epic: particlePrefab = epicParticles; break;
+            case Rarity.Legendary: particlePrefab = legendaryParticles; break;
+        }
+
+        if (particlePrefab != null)
+        {
+            GameObject effect = Instantiate(particlePrefab, instance.transform.position, Quaternion.identity, instance.transform);
+            var ps = effect.GetComponent<ParticleSystem>();
+            if (ps != null) ps.Play();
+        }
+
+        // Handle bombs specially
+        if (instance.GetComponent<BombHandler>() != null)
+        {
+            StartCoroutine(AnimateSpawnedObject(instance)); // animate + disappear
+
+            GameObject bombCopy = Instantiate(prefab, transform.position, Quaternion.identity);
+            bombCopy.transform.localScale *= 30.0f;
+            bombCopy.GetComponent<BombHandler>().AttachToPlayer(this.gameObject);
+        }
+        else
+        {
+            // Animate & destroy
+            StartCoroutine(AnimateSpawnedObject(instance));
+        }
+
+        // Apply object effects
+        if (tankScript != null)
+        {
+            tankScript.ImproveStats(prefab, playerTeam);
+
+            if (prefab.name == tankScript.specialDigObject.name)
+            {
+                ReducePlayerDigLimit();
+            }
+            else if (prefab.name == tankScript.specialDigObject2.name)
+            {
+                ReducePlayerDigLimit();
+                ReducePlayerDigLimit();
+            }
+        }
+    }
+
+
 }
