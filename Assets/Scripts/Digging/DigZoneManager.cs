@@ -16,12 +16,35 @@ public class DigZoneManager : MonoBehaviour
     public int maxDigSpots = 1;
     public RarityManager rarityManager;
 
+    private float spawnTimer = 0f;
+    private float spawnInterval = 1f;
     private List<DigSpot> activeSpots = new List<DigSpot>();
 
     void Start()
     {
-        for (int i = 0; i < maxDigSpots; i++)
-            SpawnNewDigSpot("Red");
+    }
+    void Update()
+    {
+        spawnTimer += Time.deltaTime;
+        if (spawnTimer >= spawnInterval)
+        {
+            spawnTimer = 0f;
+
+            int currentActive = CountActiveDiggableSpots();
+            float spawnChance = 0f;
+
+            if (currentActive < 3)
+                spawnChance = 1f; // 100%
+            else if (currentActive < 5)
+                spawnChance = 0.5f; // 50%
+            else if (currentActive < 10)
+                spawnChance = 0.20f; // 15%
+
+            if (currentActive < 10 && Random.value < spawnChance)
+            {
+                SpawnNewDigSpot("Red"); // or alternate team logic if needed
+            }
+        }
     }
 
     public void SpawnNewDigSpot(string team)
@@ -108,4 +131,15 @@ public class DigZoneManager : MonoBehaviour
             }
         }
     }
+    private int CountActiveDiggableSpots()
+    {
+        int count = 0;
+        foreach (var spot in activeSpots)
+        {
+            if (spot != null && !spot.isCompleted)
+                count++;
+        }
+        return count;
+    }
+
 }
