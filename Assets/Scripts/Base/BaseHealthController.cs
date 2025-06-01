@@ -14,6 +14,9 @@ public class BaseHealthController : MonoBehaviour
 
     public GameObject new_base; 
 
+    public int MaxRedBaseHealth = 100;
+    public int MaxBlueBaseHealth = 100;
+
 
     private bool exploded = false; 
     private bool base_spawned = false;
@@ -68,6 +71,17 @@ public class BaseHealthController : MonoBehaviour
             RedBaseHealth -= health;
         }
     }
+
+    public float GetHealthPercent(string team)
+    {
+        if (team == "red")
+            return Mathf.Clamp01((float)RedBaseHealth / MaxRedBaseHealth);
+        else if (team == "blue")
+            return Mathf.Clamp01((float)BlueBaseHealth / MaxBlueBaseHealth);
+        else
+            return 0f;
+    }
+
     private void DestroyBaseAnimation(GameObject base_color)
     {
         if (base_color == red_base && !exploded)
