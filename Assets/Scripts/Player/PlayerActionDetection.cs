@@ -118,7 +118,8 @@ public class PlayerActionDetection : MonoBehaviour
                         CubeBehaviour cubeScript = cubeObject.GetComponent<CubeBehaviour>();
                         if (cubeScript != null)
                         {
-                            cubeScript.CubeActivation();
+                            cubeScript.CubeActivation(this.gameObject); // pass the actual triggering player
+
                         }
                     }
                 }
@@ -244,7 +245,7 @@ public class PlayerActionDetection : MonoBehaviour
 
             // Spawn a second bomb that attaches to the player
             GameObject bombCopy = Instantiate(selectedPrefab, transform.position, Quaternion.identity);
-            bombCopy.transform.localScale *= 30.0f; // ✅ increase size (you can tweak this factor)
+            bombCopy.transform.localScale *= 20.0f; // ✅ increase size (you can tweak this factor)
             BombHandler bomb = bombCopy.GetComponent<BombHandler>();
             bomb.AttachToPlayer(this.gameObject);
             return instance;
@@ -350,7 +351,7 @@ public class PlayerActionDetection : MonoBehaviour
             StartCoroutine(AnimateSpawnedObject(instance)); // animate + disappear
 
             GameObject bombCopy = Instantiate(prefab, transform.position, Quaternion.identity);
-            bombCopy.transform.localScale *= 30.0f;
+            bombCopy.transform.localScale *= 20.0f;
             bombCopy.GetComponent<BombHandler>().AttachToPlayer(this.gameObject);
         }
         else

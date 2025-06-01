@@ -1,5 +1,6 @@
 ﻿// ✅ FINALIZED BOMB: BombHandler.cs
 using System.Collections;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class BombHandler : MonoBehaviour
@@ -13,13 +14,15 @@ public class BombHandler : MonoBehaviour
     private GameObject carrier;
     private bool active = false;
 
-    public GameObject explosion; 
+    public GameObject explosion;
 
     public void AttachToPlayer(GameObject player)
     {
         carrier = player;
-        transform.position = player.transform.position + new Vector3(0, 1.5f, -0.5f);
+        transform.position = player.transform.position;
         transform.SetParent(null); // optional, not parenting
+        StartCoroutine(BombTimer(this));
+
         active = true;
     }
 
@@ -27,9 +30,48 @@ public class BombHandler : MonoBehaviour
     {
         if (active && carrier != null)
         {
-            transform.position = carrier.transform.position + new Vector3(0, 1.5f, -0.5f);
+            transform.position = new Vector3 (carrier.transform.position.x, 9, carrier.transform.position.z);
         }
     }
+
+
+    private IEnumerator BombTimer(BombHandler obj)
+    {
+        float totalDuration = 4f;
+        float elapsed = 0f;
+        float blinkInterval = 1f; // starts slow, gets faster
+
+
+
+        Renderer rend = GetComponentInChildren<Renderer>();
+        if (rend == null)
+        {
+            Debug.LogWarning("No Renderer found on bomb.");
+            yield break;
+        }
+        yield return new WaitForSeconds(3f);
+
+        while (elapsed < totalDuration)
+        {
+            if (obj == null || obj.gameObject == null) yield break;
+
+            // Toggle visibility
+            rend.enabled = !rend.enabled;
+
+            yield return new WaitForSeconds(blinkInterval);
+            elapsed += blinkInterval;
+
+            // Accelerate blinking
+            blinkInterval = Mathf.Max(0.05f, blinkInterval * 0.75f);
+        }
+
+        // Ensure it's visible before destroying
+        rend.enabled = true;
+
+        Destroy(obj.gameObject);
+    }
+
+
 
     private void OnTriggerEnter(Collider other)
     {

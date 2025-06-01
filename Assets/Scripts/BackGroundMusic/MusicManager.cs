@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class MusicManager : MonoBehaviour
@@ -13,9 +13,16 @@ public class MusicManager : MonoBehaviour
 
     void Awake()
     {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject); // ✅ Kill duplicate
+            return;
+        }
+
         Instance = this;
         DontDestroyOnLoad(gameObject);
     }
+
 
     void Start()
     {

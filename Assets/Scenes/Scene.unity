@@ -9300,7 +9300,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2462994098733462854, guid: e3ad226bccc0eaa459287fde91252cef, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 80.729965
+      value: 79.37
       objectReference: {fileID: 0}
     - target: {fileID: 2462994098733462854, guid: e3ad226bccc0eaa459287fde91252cef, type: 3}
       propertyPath: m_LocalPosition.z
@@ -18597,8 +18597,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotationSpeed: 720
-  shrinkDuration: 0.5
-  cooldown: 15
+  shrinkDuration: 0.3
+  cooldown: 20
   appearDuration: 1
   hideYOffset: -34.7
   rotationSpeed_basic: 15

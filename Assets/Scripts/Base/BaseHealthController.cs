@@ -2,6 +2,7 @@ using System.Runtime.CompilerServices;
 using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;
+using System.IO;
 
 public class BaseHealthController : MonoBehaviour
 {
@@ -13,27 +14,33 @@ public class BaseHealthController : MonoBehaviour
 
     public GameObject new_base; 
 
+
     private bool exploded = false; 
     private bool base_spawned = false;
+    private bool first_time = true;
 
     void Update()
     {
-        if (RedBaseHealth <= 0)
+        if (RedBaseHealth <= 0 & first_time == true)
         {
             DestroyBaseAnimation(red_base);
 
 
             StartCoroutine(SpawnNewBase(red_base));
 
-            Debug.Log("Blue team has won! Game paused.");
+            WinTracker.Instance?.RegisterWin("Blue");
+            first_time = false;
 
         }
-        else if (BlueBaseHealth <= 0)
+        else if (BlueBaseHealth <= 0 & first_time == true)
         {
             DestroyBaseAnimation(blue_base);
 
             StartCoroutine(SpawnNewBase(blue_base));
-            Debug.Log("Red team has won! Game paused.");
+
+            WinTracker.Instance?.RegisterWin("Red");
+
+            first_time =false;
 
         }
     }

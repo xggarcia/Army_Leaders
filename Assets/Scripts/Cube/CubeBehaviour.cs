@@ -30,7 +30,6 @@ public class CubeBehaviour : MonoBehaviour
         initialScale = transform.localScale;
         startPosition = transform.position;
 
-        playerDetector = GameObject.FindWithTag("Player")?.GetComponent<PlayerActionDetection>();
     }
 
 
@@ -46,10 +45,13 @@ public class CubeBehaviour : MonoBehaviour
         transform.position = new Vector3(startPosition.x, newY, startPosition.z);
     }
 
-    public void CubeActivation()
+    public void CubeActivation(GameObject triggeringPlayer)
     {
-        if (onCooldown || playerDetector == null)
+        if (onCooldown || triggeringPlayer == null)
             return;
+
+        PlayerActionDetection detector = triggeringPlayer.GetComponent<PlayerActionDetection>();
+        if (detector == null) return;
 
         // 2/3 Epic, 1/3 Legendary
         Rarity rarity = (Random.value < 2f / 3f) ? Rarity.Epic : Rarity.Legendary;
@@ -58,10 +60,11 @@ public class CubeBehaviour : MonoBehaviour
             epicObjects[Random.Range(0, epicObjects.Length)] :
             legendaryObjects[Random.Range(0, legendaryObjects.Length)];
 
-        playerDetector.SpawnReward(objToSpawn, rarity);
+        detector.SpawnReward(objToSpawn, rarity);
 
         StartCoroutine(AnimateCubeAndRespawn());
     }
+
 
 
 
