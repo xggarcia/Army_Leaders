@@ -273,6 +273,7 @@ MonoBehaviour:
   epicDisableTime: 5
   legendaryDisableTime: 10
   explosion: {fileID: 100002, guid: 6ecf76dc4f268d340b2666896a954bcc, type: 3}
+  explosionSound: {fileID: 8300000, guid: 54b227b92798bc14d9fbdf7f035a1667, type: 3}
 --- !u!114 &-950962651802321367
 MonoBehaviour:
   m_ObjectHideFlags: 0

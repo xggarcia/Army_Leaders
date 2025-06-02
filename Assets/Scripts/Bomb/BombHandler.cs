@@ -15,6 +15,8 @@ public class BombHandler : MonoBehaviour
     private bool active = false;
 
     public GameObject explosion;
+    public AudioClip explosionSound; // assign this in the Inspector
+
 
     public void AttachToPlayer(GameObject player)
     {
@@ -84,6 +86,7 @@ public class BombHandler : MonoBehaviour
             float disableTime = (bombType == BombType.Epic) ? epicDisableTime : legendaryDisableTime;
             target.DisableMovement(disableTime);
             SpawnBomb(target);
+
             Debug.Log($"Bomb hit {other.name}, frozen for {disableTime}s");
             Destroy(gameObject);
         }
@@ -96,4 +99,7 @@ public class BombHandler : MonoBehaviour
         fx.SetActive(true);
 
     }
+
+
+
 }

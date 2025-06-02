@@ -22,6 +22,8 @@ public class BaseHealthController : MonoBehaviour
     private bool base_spawned = false;
     private bool first_time = true;
 
+    public GameObject bomb_sound; 
+
     void Update()
     {
         if (RedBaseHealth <= 0 & first_time == true)
@@ -94,6 +96,7 @@ public class BaseHealthController : MonoBehaviour
                 fx.transform.rotation = Quaternion.identity;
                 fx.SetActive(true);
             }
+            bomb_sound.GetComponent<AudioSource>().Play();
             exploded = true;
         }
         else if (base_color == blue_base && !exploded)
@@ -106,6 +109,7 @@ public class BaseHealthController : MonoBehaviour
                 fx.transform.rotation = Quaternion.identity;
                 fx.SetActive(true);
             }
+            bomb_sound.GetComponent<AudioSource>().Play();
             exploded = true; 
         }
     }

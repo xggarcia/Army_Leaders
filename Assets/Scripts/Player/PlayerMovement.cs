@@ -8,15 +8,18 @@ public class PlayerMovement : MonoBehaviour
     [Header("Movement Settings")]
     public float moveSpeed = 2.0f;
 
-
+    
     private bool isDisabled = false;
     private float disableTimer = 0f;
 
+    public AudioSource bomb_sound; 
 
     public void DisableMovement(float seconds)
     {
         isDisabled = true;
         disableTimer = seconds;
+        bomb_sound.Play();
+
     }
 
     void Update()
