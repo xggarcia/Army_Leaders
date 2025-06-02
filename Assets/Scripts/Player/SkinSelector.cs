@@ -1,13 +1,13 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SkinSelector : MonoBehaviour
 {
     public GameObject hatSkin;
     public GameObject shipSkin;
-    public ParticleSystem skinParticles;
-    // ✅ Particle effect prefab
+    public GameObject skinEffectPrefab;
+
+    private bool isWearingHat = false; // tracks current state
 
     void Start()
     {
@@ -16,11 +16,11 @@ public class SkinSelector : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Skin Is Hat"))
+        if (other.CompareTag("Skin Is Hat") && !isWearingHat)
         {
             SetSkin(true);
         }
-        else if (other.CompareTag("Skin Is Ship"))
+        else if (other.CompareTag("Skin Is Ship") && isWearingHat)
         {
             SetSkin(false);
         }
@@ -39,16 +39,33 @@ public class SkinSelector : MonoBehaviour
             shipSkin.SetActive(true);
         }
 
-        // ✅ Play skin change particles using pre-placed system
-        if (skinParticles != null)
-        {
-            Vector3 offset = Vector3.up * 1.8f;
-            skinParticles.transform.position = transform.position + offset;
-            skinParticles.transform.rotation = Quaternion.LookRotation(Vector3.up);
+        isWearingHat = useHat; // update current state
 
-            skinParticles.Play();
+        // ✅ Spawn and animate particle effect only if skin changes
+        if (skinEffectPrefab != null)
+        {
+            GameObject fx = Instantiate(skinEffectPrefab, transform.position + Vector3.up * 1.8f, Quaternion.identity);
+            fx.transform.SetParent(transform); // follow player
+            StartCoroutine(ScaleAndDestroy(fx));
         }
     }
 
+    private IEnumerator ScaleAndDestroy(GameObject fx)
+    {
+        float duration = 0.74f;
+        float elapsed = 0f;
+        Vector3 startScale = Vector3.one * 2.5f;
+        Vector3 endScale = Vector3.one * 0.1f;
 
+        while (elapsed < duration)
+        {
+            float t = elapsed / duration;
+            fx.transform.localScale = Vector3.Lerp(startScale, endScale, t);
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        fx.transform.localScale = endScale;
+        Destroy(fx);
+    }
 }
