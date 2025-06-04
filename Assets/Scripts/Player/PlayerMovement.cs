@@ -53,7 +53,10 @@ public class PlayerMovement : MonoBehaviour
     // Optional: External position access
     public void SetPosition(Vector3 pos)
     {
-        transform.position = pos;
+        if(!isDisabled)
+        {
+            transform.position = pos;
+        }
     }
 
     public Vector3 GetPosition()

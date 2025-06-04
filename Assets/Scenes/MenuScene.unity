@@ -1121,6 +1121,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 2
+  bomb_sound: {fileID: 0}
 --- !u!65 &329293535
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1499,6 +1500,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 2
+  bomb_sound: {fileID: 0}
 --- !u!65 &453651261
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2853,6 +2855,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hatSkin: {fileID: 1677915434}
   shipSkin: {fileID: 1677915434}
+  skinEffectPrefab: {fileID: 0}
 --- !u!114 &746246190
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5060,6 +5063,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 2
+  bomb_sound: {fileID: 0}
 --- !u!65 &1529097586
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5303,6 +5307,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 2
+  bomb_sound: {fileID: 0}
 --- !u!65 &1548306104
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5907,6 +5912,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 2
+  bomb_sound: {fileID: 0}
 --- !u!65 &1613175820
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7158,6 +7164,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 2
+  bomb_sound: {fileID: 0}
 --- !u!65 &1843243942
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7481,7 +7488,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   calibrationUI: {fileID: 822316110}
   trackingInterface: {fileID: 822316107}
-  enableTracking: 0
+  enableTracking: 1
   numberOfPlayers: 2
   numberOfBaseStations: 4
   enableRotation: 0
@@ -8179,6 +8186,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hatSkin: {fileID: 1997299497}
   shipSkin: {fileID: 1997299497}
+  skinEffectPrefab: {fileID: 0}
 --- !u!114 &2028094529
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8463,6 +8471,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 2
+  bomb_sound: {fileID: 0}
 --- !u!65 &2064500156
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -9029,6 +9038,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 2
+  bomb_sound: {fileID: 0}
 --- !u!65 &2133894184
 BoxCollider:
   m_ObjectHideFlags: 0
