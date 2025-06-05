@@ -2,9 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using TMPro; // if using TextMeshPro
-using DG.Tweening; // Add this at the top
-
+using TMPro;
+using DG.Tweening;
 
 public class GameStarter : MonoBehaviour
 {
@@ -14,13 +13,20 @@ public class GameStarter : MonoBehaviour
     public GameObject redPlayer;
     public GameObject bluePlayer;
 
-    public TextMeshProUGUI countdownText; // Assign in Canvas (center of screen)
+    public TextMeshProUGUI countdownText;
     public string nextSceneName;
 
     private HashSet<GameObject> redPlatformPlayers = new HashSet<GameObject>();
     private HashSet<GameObject> bluePlatformPlayers = new HashSet<GameObject>();
 
     private Coroutine countdownCoroutine;
+
+    [Header("Audio")]
+    public AudioSource audioSource; // Assign in inspector
+    public AudioClip countdown3;
+    public AudioClip countdown2;
+    public AudioClip countdown1;
+    public AudioClip goClip;
 
     void Start()
     {
@@ -71,27 +77,37 @@ public class GameStarter : MonoBehaviour
 
         for (int i = 3; i >= 0; i--)
         {
-            if (i == 0)
+            switch (i)
             {
-                countdownText.text = "GO!!";
+                case 3:
+                    countdownText.text = "3";
+                    audioSource.PlayOneShot(countdown3);
+                    break;
+                case 2:
+                    countdownText.text = "2";
+                    audioSource.PlayOneShot(countdown2);
+                    break;
+                case 1:
+                    countdownText.text = "1";
+                    audioSource.PlayOneShot(countdown1);
+                    break;
+                case 0:
+                    countdownText.text = "GO!!";
+                    audioSource.PlayOneShot(goClip);
+                    break;
             }
-            else
-            {
-                countdownText.text = i.ToString();
-            }
-            countdownText.color = new Color(1, 1, 1, 0); // transparent
+
+            countdownText.color = new Color(1, 1, 1, 0);
             countdownText.transform.localScale = Vector3.one * 0.5f;
 
-            // Animate scale and fade
             countdownText.DOFade(1f, 0.5f);
             countdownText.transform.DOScale(1f, 0.5f).SetEase(Ease.OutBack);
 
             yield return new WaitForSeconds(1f);
 
-            // Cancel if anyone leaves
             if (!redPlatformPlayers.Contains(redPlayer) || !bluePlatformPlayers.Contains(bluePlayer))
             {
-                countdownText.DOKill(); // stop DOTween animations
+                countdownText.DOKill();
                 countdownText.gameObject.SetActive(false);
                 yield break;
             }

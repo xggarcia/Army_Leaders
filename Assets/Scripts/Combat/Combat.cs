@@ -23,19 +23,27 @@ public class Combat : MonoBehaviour
     public GameObject specialDigObject;
     public GameObject specialDigObject2;
 
-    public List<HealingObject> healingObjects;  // NEW
+    public List<HealingObject> healingObjects;
 
     [Header("UI Events")]
     public UnityEvent<string> OnGameOver;
 
     [Header("Bomb")]
     public GameObject bomb_epic;
-    public GameObject bomb_legendeary; 
+    public GameObject bomb_legendeary;
 
     [Header("Explosion")]
     public GameObject explosion;
     public Vector3 REDexplosionCordinates;
     public Vector3 BLUEexplosionCordinates;
+
+    [Header("Damage Sounds")]
+    public AudioSource audioSource; // Assign in inspector
+    public AudioClip redDamageSound;
+    public AudioClip blueDamageSound;
+
+    private int redDamageCount = 0;
+    private int blueDamageCount = 0;
 
     private float currentZ = 0f;
     private bool isDamagingBase = false;
@@ -54,7 +62,6 @@ public class Combat : MonoBehaviour
 
     void Update()
     {
-        // Damage base if touching it
         if (isDamagingBase)
         {
             damageTimer += Time.deltaTime;
@@ -66,11 +73,21 @@ public class Combat : MonoBehaviour
                 if (winningTeam == "Red")
                 {
                     baseHealthController.RemoveHealth(damage, "blue");
+                    blueDamageCount++;
+                    if (blueDamageCount % 6 == 1 && audioSource != null && blueDamageSound != null)
+                    {
+                        audioSource.PlayOneShot(blueDamageSound);
+                    }
                     DamageAnimation("blue");
                 }
                 else if (winningTeam == "Blue")
                 {
                     baseHealthController.RemoveHealth(damage, "red");
+                    redDamageCount++;
+                    if (redDamageCount % 6 == 1 && audioSource != null && redDamageSound != null)
+                    {
+                        audioSource.PlayOneShot(redDamageSound);
+                    }
                     DamageAnimation("red");
                 }
             }
@@ -88,7 +105,6 @@ public class Combat : MonoBehaviour
             currentZ = Mathf.Clamp(currentZ, minZ, maxZ);
             transform.position = new Vector3(transform.position.x, transform.position.y, currentZ);
 
-            // Winner is only declared if tank reaches far edge
             if (currentZ <= minZ)
             {
                 winningTeam = "Red";
@@ -185,7 +201,6 @@ public class StatModifier
     public int speedBoost;
 }
 
-// ✅ NEW STRUCT FOR MULTIPLE HEALERS
 [System.Serializable]
 public class HealingObject
 {
