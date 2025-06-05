@@ -92,7 +92,7 @@ public class GameStarter : MonoBehaviour
                     audioSource.PlayOneShot(countdown1);
                     break;
                 case 0:
-                    countdownText.text = "GO!!";
+                    countdownText.text = "FIGHT!!";
                     audioSource.PlayOneShot(goClip);
                     break;
             }
